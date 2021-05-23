@@ -1,27 +1,28 @@
-import { BrowserRouter as Router, Link} from "react-router-dom";
-import { useContext } from "react";
-import { AuthContext } from "../../context/AuthContext";
-import axios from "axios";
-import styles from './Nav.module.css';
+import { BrowserRouter as Router, Link } from "react-router-dom";
+// import { useContext } from "react";
+// import { AuthContext } from "../../context/AuthContext";
+// import axios from "axios";
+import styles from "./Nav.module.css";
+import { BsSearch } from "react-icons/bs";
 
 const Nav = () => {
-  const { state, dispatch } = useContext(AuthContext);
+  // const { state, dispatch } = useContext(AuthContext);
 
-  const logout = () => {
-    (async () => {
-      try {
-        const asyncResponse = await axios({
-          method: "POST",
-          url: process.env.NEXT_PUBLIC_API_URL + "/Logout",
-          headers: {
-            "access-token": state.token,
-          },
-        });
-      } catch (e) {
-        console.log(e);
-      }
-    })();
-  };
+  // const logout = () => {
+  //   (async () => {
+  //     try {
+  //       const asyncResponse = await axios({
+  //         method: "POST",
+  //         url: process.env.NEXT_PUBLIC_API_URL + "/Logout",
+  //         headers: {
+  //           "access-token": state.token,
+  //         },
+  //       });
+  //     } catch (e) {
+  //       console.log(e);
+  //     }
+  //   })();
+  // };
 
   return (
     <>
@@ -29,17 +30,16 @@ const Nav = () => {
         id={styles["nav-edit"]}
         className="nav bg-light d-flex justify-content-center"
       >
-        <Router>
-          <Link className="nav-link" to="/">
-            Home
-          </Link>
-          <Link className="nav-link" to="/register">
-            Register
-          </Link>
-          <Link className="nav-link" to="/protected">
-            Protected
-          </Link>
-        </Router>
+        <Link className="nav-link" to="/home">
+          Home
+        </Link>
+        <Link className="nav-link" to="/bookshelf">
+          Bookshelf
+        </Link>
+        <Link className="nav-link" to="/search">
+          {<BsSearch />} Search
+        </Link>
+
       </nav>
     </>
   );

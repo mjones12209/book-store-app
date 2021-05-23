@@ -2,12 +2,16 @@ import { useState, useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import { useForm } from "react-hook-form";
 import { Alert } from "react-bootstrap";
+import { useHistory } from 'react-router-dom';
 import axios from "axios";
+import styles from './LoginForm.module.css';
 
 const LoginForm = () => {
   const { dispatch } = useContext(AuthContext);
 
   const [error, setError] = useState();
+
+  const history = useHistory();
 
   const {
     register,
@@ -42,8 +46,8 @@ const LoginForm = () => {
           type: "LOGIN",
           payload: asyncResponse.data,
         });
-        window.localStorage.setItem("userInfo", asyncResponse.data);
-        console.log(asyncResponse)
+        console.log(asyncResponse);
+        history.push("/bookshelf");
       }
     } catch (e) {
       console.log(e);
@@ -67,53 +71,56 @@ const LoginForm = () => {
           {error}
         </Alert>
       )}
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="col-md-3 shadow-lg text-center p-3 mt-2 ml-auto mr-auto mb-5 bg-white rounded">
-            <h2>Sign In</h2>
-            <div className="form-group">
-              <label>Username / Email</label>
-              <input
-                type="text"
-                className="form-control"
-                id="username"
-                {...register("username", {
-                  required: "This is a required field.",
-                  maxlength: 30,
-                })}
-              />
-              {errors.username && (
-                <Alert className="mt-1" variant="danger">
-                  {errors.username?.type === "required" &&
-                    errors.username.message}
-                  {errors.username?.type === "maxlength" &&
-                    "Max length of title is 30 characters!"}
-                </Alert>
-              )}
-            </div>
-            <div className="form-group">
-              <label>Password</label>
-              <input
-                type="password"
-                className="form-control"
-                {...register("passwordValid", {
-                  required: "This is a required field.",
-                  maxlength: 30,
-                })}
-              />
-              {errors.passwordValid && (
-                <Alert className="mt-1" variant="danger">
-                  {errors.passwordValid?.type === "required" &&
-                    errors.passwordValid.message}
-                  {errors.passwordValid?.type === "maxlength" &&
-                    "Max length of title is 30 characters!"}
-                </Alert>
-              )}
-            </div>
-            <button className="btn btn-primary mt-2" type="submit">
-              Sign In
-            </button>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <div
+          id={styles["login-form-div"]}
+          className="col-md-3 shadow-lg text-center p-3 mt-2 mb-5 bg-white rounded"
+        >
+          <h2>Sign In</h2>
+          <div className="form-group">
+            <label>Username / Email</label>
+            <input
+              type="text"
+              className="form-control"
+              id="username"
+              {...register("username", {
+                required: "This is a required field.",
+                maxlength: 30,
+              })}
+            />
+            {errors.username && (
+              <Alert className="mt-1" variant="danger">
+                {errors.username?.type === "required" &&
+                  errors.username.message}
+                {errors.username?.type === "maxlength" &&
+                  "Max length of title is 30 characters!"}
+              </Alert>
+            )}
           </div>
-        </form>
+          <div className="form-group">
+            <label>Password</label>
+            <input
+              type="password"
+              className="form-control"
+              {...register("passwordValid", {
+                required: "This is a required field.",
+                maxlength: 30,
+              })}
+            />
+            {errors.passwordValid && (
+              <Alert className="mt-1" variant="danger">
+                {errors.passwordValid?.type === "required" &&
+                  errors.passwordValid.message}
+                {errors.passwordValid?.type === "maxlength" &&
+                  "Max length of title is 30 characters!"}
+              </Alert>
+            )}
+          </div>
+          <button className="btn btn-primary mt-2" type="submit">
+            Sign In
+          </button>
+        </div>
+      </form>
     </>
   );
 };
