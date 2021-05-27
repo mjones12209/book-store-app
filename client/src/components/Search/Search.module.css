@@ -8,3 +8,13 @@
     border: none;
     color: white;
 }
+
+#searchResults {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+#searchResults * {
+    margin-left: auto;
+    margin-right: auto;
+}

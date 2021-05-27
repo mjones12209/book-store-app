@@ -5,7 +5,7 @@ function App() {
   return (
     <>
     <AuthContextProvider>
-      <AppRouter />
+        <AppRouter />
     </AuthContextProvider>
     </>
   );

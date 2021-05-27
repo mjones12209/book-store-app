@@ -9,8 +9,9 @@ import LoginForm from "../../components/LoginForm/LoginForm";
 import Nav from "../../components/Nav/Nav";
 import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
 import Search from '../../components/Search/Search';
-import Home from '../../components/Home/Home';
 import BookShelf from '../../components/BookShelf/BookShelf';
+import BookContextProvider from "../../context/BookContext";
+import BookDetails from '../../components/BookDetails/BookDetails';
 
 
 const AppRouter = () => {
@@ -23,24 +24,25 @@ const AppRouter = () => {
               <LoginForm />
             </Route>
 
-            <ProtectedRoute exact path="/home">
-              <Home />
-            </ProtectedRoute>
-
             <ProtectedRoute exact path="/search">
-              <Search />
+              <BookContextProvider>
+                <Search />
+              </BookContextProvider>
             </ProtectedRoute>
 
             <ProtectedRoute exact path="/bookshelf">
-              <BookShelf />
+              <BookContextProvider>
+               <BookShelf />
+              </BookContextProvider>
             </ProtectedRoute>
 
             <ProtectedRoute exact path="/bookdetails">
-              <BookShelf />
+              <BookContextProvider>
+                <BookDetails />
+              </BookContextProvider>
             </ProtectedRoute>
 
             <Redirect to="/login" />
-
           </Switch>
         </Router>
       </>

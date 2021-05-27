@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 // import { useContext } from "react";
 // import { AuthContext } from "../../context/AuthContext";
 // import axios from "axios";
@@ -28,18 +28,14 @@ const Nav = () => {
     <>
       <nav
         id={styles["nav-edit"]}
-        className="nav bg-light d-flex justify-content-center"
+        className="nav bg-light d-flex justify-content-between"
       >
-        <Link className="nav-link" to="/home">
-          Home
-        </Link>
         <Link className="nav-link" to="/bookshelf">
-          Bookshelf
+         My Bookshelf
         </Link>
         <Link className="nav-link" to="/search">
           {<BsSearch />} Search
         </Link>
-
       </nav>
     </>
   );
