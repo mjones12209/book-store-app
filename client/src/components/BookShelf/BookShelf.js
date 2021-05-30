@@ -1,51 +1,96 @@
-import { useContext } from 'react';
-import { Card } from "react-bootstrap";
+import { useContext, useEffect, useState } from 'react';
+import { Card, Alert } from "react-bootstrap";
 import styles from './BookShelf.module.css';
-import { BookContext } from '../../context/BookContext';
+import { AuthContext } from "../../context/AuthContext";
+import axios from 'axios';
+import Book from './Book/Book';
 
 
 const BookShelf = () => {
 
-    const { bookState, dispatch } = useContext(BookContext);
+    const { state } = useContext(AuthContext);
+    const [ bookShelfData, setBookShelfData] = useState();
+
+    useEffect(() => {
+      const getBooks = async () => {
+        const response = await axios({
+          method: "GET",
+          url: "/api/bookshelf",
+          headers: {
+            Authorization: `Bearer ${state.token}`,
+            "Content-Type": "application/json",
+          },
+        });
+        if (response.status === 200) {
+          setBookShelfData(response.data.books);
+        }
+      };
+      getBooks();
+    }, [state.token, bookShelfData]);
 
     return (
-      <div id={styles["categories"]} className="mt-1">
+      <div id={styles["categories"]} className="mt-3">
         <Card style={{ width: "80%" }}>
           <Card.Body>
-            <Card.Title>Want To Read</Card.Title>
-            <Card.Subtitle className="mb-2 text-muted">
-              Card Subtitle
-            </Card.Subtitle>
-            {bookState.wantToRead.map((book, index) => {
-              return <h1>{book}</h1>;
-            })}
-            <Card.Link href="#">Card Link</Card.Link>
-            <Card.Link href="#">Another Link</Card.Link>
+            <Card.Header as="h5">Want To Read</Card.Header>
+            {bookShelfData &&
+              bookShelfData.wantToRead.map((book, index) => {
+                return (
+                  <Book
+                    title={book.title}
+                    key={`book-${index}`}
+                    image={book.imageLinks.smallThumbnail}
+                    bookId={book.id}
+                  />
+                );
+              })}
+            {bookShelfData && bookShelfData.wantToRead.length === 0 ? (
+              <Alert variant="secondary" className="mt-1">
+                You have no books currently in this shelf.
+              </Alert>
+            ) : null}
           </Card.Body>
         </Card>
-        <Card style={{ width: "80%" }}>
+        <Card style={{ width: "80%" }} className="mt-3">
           <Card.Body>
-            <Card.Title>Currently Reading</Card.Title>
-            <Card.Subtitle className="mb-2 text-muted">
-              Card Subtitle
-            </Card.Subtitle>
-            {/* {bookState.currentlyReading.map((book, index) => {
-              return <h1>{book}</h1>;
-            })} */}
-            {console.log(bookState.currentlyReading)}
-            <Card.Link href="#">Card Link</Card.Link>
-            <Card.Link href="#">Another Link</Card.Link>
+            <Card.Header as="h5">Currently Reading</Card.Header>
+            {bookShelfData &&
+              bookShelfData.currentlyReading.map((book, index) => {
+                return (
+                  <Book
+                    title={book.title}
+                    key={`book-${index}`}
+                    image={book.imageLinks.smallThumbnail}
+                    bookId={book.id}
+                  />
+                );
+              })}
+            {bookShelfData && bookShelfData.currentlyReading.length === 0 ? (
+              <Alert variant="secondary" className="mt-1">
+                You have no books currently in this shelf.
+              </Alert>
+            ) : null}
           </Card.Body>
         </Card>
-        <Card style={{ width: "80%" }}>
+        <Card style={{ width: "80%" }} className="mt-3 mb-3">
           <Card.Body>
-            <Card.Title>Read</Card.Title>
-            <Card.Subtitle className="mb-2 text-muted">
-              Card Subtitle
-            </Card.Subtitle>
-            {/*BOOKS*/}
-            <Card.Link href="#">Card Link</Card.Link>
-            <Card.Link href="#">Another Link</Card.Link>
+            <Card.Header as="h5">Read</Card.Header>
+            {bookShelfData &&
+              bookShelfData.read.map((book, index) => {
+                return (
+                  <Book
+                    title={book.title}
+                    key={`book-${index}`}
+                    image={book.imageLinks.smallThumbnail}
+                    bookId={book.id}
+                  />
+                );
+              })}
+            {bookShelfData && bookShelfData.read.length === 0 ? (
+              <Alert variant="secondary" className="mt-1">
+                You have no books currently in this shelf.
+              </Alert>
+            ) : null}
           </Card.Body>
         </Card>
       </div>

@@ -35,7 +35,7 @@ const Search = () => {
         method: "GET",
         url: `/api/book/search/${data.query.split(" ").join("+")}`,
         headers: {
-          Authorizaion: `Bearer ${state.token}`,
+          Authorization: `Bearer ${state.token}`,
           "Content-Type": "application/json",
         },
       });

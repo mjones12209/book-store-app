@@ -50,13 +50,9 @@ const LoginForm = () => {
         history.push("/bookshelf");
       }
     } catch (e) {
-      console.log(e);
       setError(
-        "Sorry there was a problem with your login request, please contact customer support"
+        e.message
       );
-      if (e.response) {
-        console.log(error);
-      }
     }
   };
 

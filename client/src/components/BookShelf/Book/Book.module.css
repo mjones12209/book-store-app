@@ -1,0 +1,8 @@
+#ul {
+    display: inline-block;
+    list-style-type: non
+}
+
+#ul * {
+    border: none;
+}
