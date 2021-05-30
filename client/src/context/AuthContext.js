@@ -31,16 +31,6 @@ export const AuthContext = createContext(initialState);
 
 const AuthContextProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
-  console.log(state.token)
-
-//   useEffect(() => {
-//     if (window.localStorage.getItem("userInfo")) {
-//       dispatch({
-//         type: "LOGIN",
-//         payload: window.localStorage.getItem("userInfo"),
-//       });
-//     }
-//   }, []);
 
   return (
     <AuthContext.Provider value={{ state, dispatch }}>

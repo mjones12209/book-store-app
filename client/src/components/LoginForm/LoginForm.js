@@ -46,7 +46,6 @@ const LoginForm = () => {
           type: "LOGIN",
           payload: asyncResponse.data,
         });
-        console.log(asyncResponse);
         history.push("/bookshelf");
       }
     } catch (e) {

@@ -38,6 +38,7 @@ const BookDetails = () => {
     {errorMessage && <Alert variant="danger">{errorMessage}</Alert>}
       <Card
         style={{
+          marginTop: "1%",
           marginLeft: "1%",
           padding: "8px",
           flexDirection: "row",

@@ -21,7 +21,6 @@ const SearchResult = ({ title, author, desc, image, bookId }) => {
   const { dispatch } = useContext(BookContext);
 
   const addToShelf = async (bookId, whichShelf) => {
-    console.log(state.token)
     try {
       const asyncResponse = await axios({
         method: "PUT",
@@ -40,7 +39,6 @@ const SearchResult = ({ title, author, desc, image, bookId }) => {
   };
 
   const viewDetails = async () => {
-    console.log("viewdetails")
     try {
       const asyncResponse = await axios({
         method: "GET",
@@ -51,7 +49,6 @@ const SearchResult = ({ title, author, desc, image, bookId }) => {
         },
       });
       if (asyncResponse.status === 200) {
-        console.log(asyncResponse);
         dispatch({
           type: "ADD_BOOK",
           payload: asyncResponse.data.book,
@@ -71,7 +68,7 @@ const SearchResult = ({ title, author, desc, image, bookId }) => {
   }, [showFullDesc, desc]);
 
   return (
-    <span>
+    <>
       <Card style={{ width: "18rem" }} className="mb-1 text-center">
         <Card.Img
           variant="top"
@@ -136,7 +133,7 @@ const SearchResult = ({ title, author, desc, image, bookId }) => {
           </Button>
         </Card.Body>
       </Card>
-    </span>
+    </>
   );
 };
 

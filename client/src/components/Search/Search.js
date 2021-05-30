@@ -86,7 +86,6 @@ const Search = () => {
           {<BsSearch />}
         </button>
       </form>
-      {results && console.log("This is results", results)}
       <div id={styles["searchResults"]}>
         {results &&
           results.map((result, index) => {
