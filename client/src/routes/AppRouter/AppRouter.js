@@ -12,8 +12,6 @@ import Search from '../../components/Search/Search';
 import BookShelf from '../../components/BookShelf/BookShelf';
 import BookContextProvider from "../../context/BookContext";
 import BookDetails from '../../components/BookDetails/BookDetails';
-import SearchContextProvider from '../../context/SearchContext';
-
 
 const AppRouter = () => {
     return (
@@ -27,22 +25,20 @@ const AppRouter = () => {
 
             <ProtectedRoute exact path="/search">
               <BookContextProvider>
-                <SearchContextProvider>
                   <Search />
-                </SearchContextProvider>
               </BookContextProvider>
             </ProtectedRoute>
 
             <ProtectedRoute exact path="/bookshelf">
-              <BookContextProvider>
-                <BookShelf />
-              </BookContextProvider>
+                <BookContextProvider>
+                  <BookShelf />
+                </BookContextProvider>
             </ProtectedRoute>
 
             <ProtectedRoute exact path="/bookdetails">
-              <BookContextProvider>
-                <BookDetails />
-              </BookContextProvider>
+                <BookContextProvider>
+                  <BookDetails />
+                </BookContextProvider>
             </ProtectedRoute>
 
             <Redirect to="/login" />

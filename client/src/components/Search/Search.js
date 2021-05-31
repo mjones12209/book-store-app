@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import styles from "./Search.module.css";
 import { BsSearch } from "react-icons/bs";
 import axios from "axios";
@@ -8,9 +8,20 @@ import { Alert } from "react-bootstrap";
 import SearchResult from "./SearchResult/SearchResult";
 
 const Search = () => {
-  const { state } = useContext(AuthContext);
 
-  const [results, setResults] = useState([]);
+  
+  const { state } = useContext(AuthContext);
+  
+  const [ results, setResults ] = useState([]);
+
+  const [ isLoading, setIsLoading ] = useState(false);
+  
+  useEffect(()=> {
+    const storedResults = JSON.parse(window.localStorage.getItem("results"));
+    if (storedResults) {
+      setResults(storedResults);
+    }
+  }, [])
 
   const [apiError, setApiError] = useState();
 
@@ -31,6 +42,7 @@ const Search = () => {
 
   const search = async (data) => {
     try {
+      setIsLoading(true);
       const asyncResponse = await axios({
         method: "GET",
         url: `/api/book/search/${data.query.split(" ").join("+")}`,
@@ -40,11 +52,14 @@ const Search = () => {
         },
       });
       if (asyncResponse.status === 200) {
+        setIsLoading(false);
         setResults(asyncResponse.data.books);
+        window.localStorage.setItem("results", JSON.stringify(asyncResponse.data.books));
       }
     } catch (e) {
       console.log(e);
       if (e.response) {
+        setIsLoading(false);
         setApiError(
           "There was a problem with your search, please try again later or contact customer support."
         );
@@ -57,6 +72,11 @@ const Search = () => {
       {apiError && (
         <Alert className="mt-1" variant="danger">
           {apiError}
+        </Alert>
+      )}
+      {isLoading && (
+        <Alert className="mt-1" variant="secondary">
+          Loading...
         </Alert>
       )}
       <h1 className="text-center">Search</h1>
@@ -74,11 +94,11 @@ const Search = () => {
             required: "Please enter a search query",
           })}
         />
-        {errors.query && 
+        {errors.query && (
           <Alert className="mt-1" variant="danger">
             {errors.query?.type === "required" && errors.query.message}
-          </Alert>  
-        } 
+          </Alert>
+        )}
         <button
           id={styles["search-button"]}
           className="btn btn-outline-success"
