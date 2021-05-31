@@ -12,6 +12,7 @@ import Search from '../../components/Search/Search';
 import BookShelf from '../../components/BookShelf/BookShelf';
 import BookContextProvider from "../../context/BookContext";
 import BookDetails from '../../components/BookDetails/BookDetails';
+import SearchContextProvider from '../../context/SearchContext';
 
 
 const AppRouter = () => {
@@ -26,13 +27,15 @@ const AppRouter = () => {
 
             <ProtectedRoute exact path="/search">
               <BookContextProvider>
-                <Search />
+                <SearchContextProvider>
+                  <Search />
+                </SearchContextProvider>
               </BookContextProvider>
             </ProtectedRoute>
 
             <ProtectedRoute exact path="/bookshelf">
               <BookContextProvider>
-               <BookShelf />
+                <BookShelf />
               </BookContextProvider>
             </ProtectedRoute>
 

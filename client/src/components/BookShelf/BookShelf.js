@@ -5,28 +5,27 @@ import { AuthContext } from "../../context/AuthContext";
 import axios from 'axios';
 import Book from './Book/Book';
 
-
 const BookShelf = () => {
 
     const { state } = useContext(AuthContext);
-    const [ bookShelfData, setBookShelfData] = useState();
+    const [ bookShelfData, setBookShelfData ]  = useState();
 
-    useEffect(() => {
-      const getBooks = async () => {
-        const response = await axios({
-          method: "GET",
-          url: "/api/bookshelf",
-          headers: {
-            Authorization: `Bearer ${state.token}`,
-            "Content-Type": "application/json",
-          },
-        });
-        if (response.status === 200) {
-          setBookShelfData(response.data.books);
-        }
-      };
-      getBooks();
-    }, [state.token, bookShelfData]);
+
+    useEffect(()=> {
+      (async () => {
+         const response = await axios({
+           method: "GET",
+           url: "/api/bookshelf",
+           headers: {
+             Authorization: `Bearer ${state.token}`,
+             "Content-Type": "application/json",
+           },
+         });
+         if (response.status === 200) {
+           setBookShelfData(response.data.books);
+         }
+       })();
+    }, [state.token]);
 
     return (
       <div id={styles["categories"]} className="mt-3">
@@ -41,6 +40,8 @@ const BookShelf = () => {
                     key={`book-${index}`}
                     image={book.imageLinks.smallThumbnail}
                     bookId={book.id}
+                    setBookShelfData={setBookShelfData}
+                    bookShelfData={bookShelfData}
                   />
                 );
               })}
@@ -62,6 +63,8 @@ const BookShelf = () => {
                     key={`book-${index}`}
                     image={book.imageLinks.smallThumbnail}
                     bookId={book.id}
+                    setBookShelfData={setBookShelfData}
+                    bookShelfData={bookShelfData}
                   />
                 );
               })}
@@ -83,6 +86,8 @@ const BookShelf = () => {
                     key={`book-${index}`}
                     image={book.imageLinks.smallThumbnail}
                     bookId={book.id}
+                    setBookShelfData={setBookShelfData}
+                    bookShelfData={bookShelfData}
                   />
                 );
               })}

@@ -9,7 +9,10 @@ const reducer = (bookState, action) => {
   }
 };
 
-const initialState = {};
+const initialState = {
+  book: null,
+  bookShelf: null
+};
 
 export const BookContext = createContext(initialState);
 

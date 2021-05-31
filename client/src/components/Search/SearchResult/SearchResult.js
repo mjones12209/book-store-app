@@ -7,7 +7,7 @@ import { AuthContext } from "../../../context/AuthContext";
 import axios from 'axios';
 import styles from './SearchResult.module.css';
 
-const SearchResult = ({ title, author, desc, image, bookId }) => {
+const SearchResult = ({ title, author, desc, picture, bookId }) => {
   const [showFullDesc, setShowFullDesc] = useState(true);
   const [variableDesc, setVariableDesc] = useState(null);
   const [noDescriptionerror, setNoDescriptionError] = useState();
@@ -72,7 +72,7 @@ const SearchResult = ({ title, author, desc, image, bookId }) => {
       <Card style={{ width: "18rem" }} className="mb-1 text-center">
         <Card.Img
           variant="top"
-          src={image}
+          src={picture}
           style={{ width: "286px", height: "250px" }}
         />
         <Card.Body>

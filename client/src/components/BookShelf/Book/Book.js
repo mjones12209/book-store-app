@@ -6,7 +6,7 @@ import axios from 'axios';
 import { AuthContext } from '../../../context/AuthContext';
 import { BookContext } from '../../../context/BookContext';
 
-const Book = ({title, image, bookId}) => {
+const Book = ({title, image, bookId, setBookShelfData}) => {
 
     const { state } = useContext(AuthContext);
 
@@ -16,7 +16,7 @@ const Book = ({title, image, bookId}) => {
 
     const deleteBook = async (bookId) => {
       try{
-        await axios({
+        const asyncResponse = await axios({
           method: "DELETE",
           url: `/api/bookshelf/${bookId}`,
           headers: {
@@ -24,23 +24,55 @@ const Book = ({title, image, bookId}) => {
             "Content-Type": "application/json",
           },
         });
+        if(asyncResponse.status === 200) {
+           (async () => {
+             const response = await axios({
+               method: "GET",
+               url: "/api/bookshelf",
+               headers: {
+                 Authorization: `Bearer ${state.token}`,
+                 "Content-Type": "application/json",
+               },
+             });
+             if (response.status === 200) {
+               setBookShelfData(response.data.books);
+             }
+           })();
+        }
       } catch (e) {
         console.log(e.mesesage)
       }
     }
 
     const switchToAnotherShelf = async(id, whichShelf) => {
-      try {
-        await axios({
-          method: "PUT",
-          url: `/api/bookshelf/${id}/${whichShelf}`,
-          headers: {
-            Authorization: `Bearer ${state.token}`,
-            "Content-Type": "application/json",
-          },
-        });
-      } catch (e) {
-        console.log(e)
+      if(whichShelf !== "Select shelf"){
+        try {
+         const asyncResponse =  await axios({
+            method: "PUT",
+            url: `/api/bookshelf/${id}/${whichShelf}`,
+            headers: {
+              Authorization: `Bearer ${state.token}`,
+              "Content-Type": "application/json",
+            },
+          });
+          if(asyncResponse.status === 200) {
+            (async () => {
+              const response = await axios({
+                method: "GET",
+                url: "/api/bookshelf",
+                headers: {
+                  Authorization: `Bearer ${state.token}`,
+                  "Content-Type": "application/json",
+                },
+              });
+              if (response.status === 200) {
+                setBookShelfData(response.data.books);
+              }
+            })();
+          }
+        } catch (e) {
+          console.log(e)
+        }
       }
     }
 

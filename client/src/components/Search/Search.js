@@ -51,6 +51,7 @@ const Search = () => {
       }
     }
   };
+
   return (
     <>
       {apiError && (
@@ -73,14 +74,13 @@ const Search = () => {
             required: "Please enter a search query",
           })}
         />
-        {errors.query && (
+        {errors.query && 
           <Alert className="mt-1" variant="danger">
             {errors.query?.type === "required" && errors.query.message}
-          </Alert>
-        )}
+          </Alert>  
+        } 
         <button
           id={styles["search-button"]}
-          type="submit"
           className="btn btn-outline-success"
         >
           {<BsSearch />}
@@ -95,7 +95,7 @@ const Search = () => {
                 title={result.title}
                 author={result.authors}
                 desc={result.description}
-                image={result.imageLinks.smallThumbnail}
+                picture={result.imageLinks?.thumbnail}
                 bookId={result.id}
               />
             );
