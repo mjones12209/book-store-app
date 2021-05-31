@@ -9,25 +9,11 @@ import SearchResult from "./SearchResult/SearchResult";
 
 const Search = () => {
 
-  
-  const { state } = useContext(AuthContext);
-  
-  const [ results, setResults ] = useState([]);
-
-  const [ isLoading, setIsLoading ] = useState(false);
-  
-  useEffect(()=> {
-    const storedResults = JSON.parse(window.localStorage.getItem("results"));
-    if (storedResults) {
-      setResults(storedResults);
-    }
-  }, [])
-
-  const [apiError, setApiError] = useState();
-
   const {
     register,
     handleSubmit,
+    getValues,
+    setValue,
     formState: { errors },
   } = useForm({
     mode: "onSubmit",
@@ -39,6 +25,23 @@ const Search = () => {
     shouldFocusError: true,
     shouldUnregister: false,
   });
+  
+  const { state } = useContext(AuthContext);
+  
+  const [ results, setResults ] = useState([]);
+
+  const [ isLoading, setIsLoading ] = useState(false);
+  
+  useEffect(()=> {
+    const storedResults = JSON.parse(window.localStorage.getItem("results"));
+    if (storedResults) {
+      setValue("query", storedResults.searchTerm);
+      setResults(storedResults.data);
+    }
+  }, [setValue])
+
+  const [apiError, setApiError] = useState();
+
 
   const search = async (data) => {
     try {
@@ -54,7 +57,7 @@ const Search = () => {
       if (asyncResponse.status === 200) {
         setIsLoading(false);
         setResults(asyncResponse.data.books);
-        window.localStorage.setItem("results", JSON.stringify(asyncResponse.data.books));
+        window.localStorage.setItem("results", JSON.stringify({searchTerm: getValues("query"), data: asyncResponse.data.books}));
       }
     } catch (e) {
       console.log(e);
@@ -90,6 +93,11 @@ const Search = () => {
           type="search"
           placeholder="Enter your search here"
           aria-label="Search"
+          onClick={()=> {
+            setValue("query", null)
+            setResults(null);
+            window.localStorage.removeItem("results");
+          }}
           {...register("query", {
             required: "Please enter a search query",
           })}
@@ -106,6 +114,7 @@ const Search = () => {
           {<BsSearch />}
         </button>
       </form>
+      {window.localStorage.getItem("results") && <h2 className="text-center">Search results for "{getValues("query")}"</h2>}
       <div id={styles["searchResults"]}>
         {results &&
           results.map((result, index) => {
