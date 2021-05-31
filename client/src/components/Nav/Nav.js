@@ -1,8 +1,32 @@
+import { useContext } from 'react';
 import { Link } from "react-router-dom";
 import styles from "./Nav.module.css";
 import { BsSearch } from "react-icons/bs";
+import { AuthContext } from '../../context/AuthContext';
+import axios from 'axios';
 
 const Nav = () => {
+
+  const { state, dispatch } = useContext(AuthContext);
+
+  const signOut = async()=> {
+    try {
+      const asyncResponse = await axios({
+        method: "DELETE",
+        url: "api/signout",
+        headers: {
+          Authorization: `Bearer ${state.token}`,
+          "Content-Type": "application/json"
+        }
+      })
+      if(asyncResponse.status === 200) {
+        dispatch({type: "LOGOUT"});
+      }
+    } catch(e) {
+      dispatch({ type: "LOGOUT" });
+      console.log(e)
+    }
+  }
 
   return (
     <>
@@ -12,6 +36,9 @@ const Nav = () => {
       >
         <Link className="nav-link" to="/bookshelf">
          My Bookshelf
+        </Link>
+        <Link className="nav-link" onClick={()=>signOut()}>
+          Sign Out
         </Link>
         <Link className="nav-link" to="/search">
           {<BsSearch />} Search

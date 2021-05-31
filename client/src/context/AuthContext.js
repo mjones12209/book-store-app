@@ -7,14 +7,13 @@ const reducer = (state, action) => {
         ...state,
         isLoggedIn: true,
         token: action.payload.token,
-        refresh: null
       };
     case "LOGOUT":
       return { initialState };
     case "UPDATE_TOKEN":
       return {
         ...state,
-        //refresh token
+        token: action.payload
       };
     default:
       return state;
