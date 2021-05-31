@@ -37,9 +37,9 @@ const Nav = () => {
         <Link className="nav-link" to="/bookshelf">
          My Bookshelf
         </Link>
-        <Link className="nav-link" onClick={()=>signOut()}>
+        {state.isLoggedIn && <button className="nav-link" onClick={()=>signOut()}>
           Sign Out
-        </Link>
+        </button>}
         <Link className="nav-link" to="/search">
           {<BsSearch />} Search
         </Link>

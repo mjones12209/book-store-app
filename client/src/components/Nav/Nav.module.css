@@ -4,4 +4,6 @@
 
 #nav-edit * {
     color: white;
+    background-color: #235B61 !important;
+    border: none;
 }
