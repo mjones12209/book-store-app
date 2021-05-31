@@ -1,17 +1,15 @@
 import { useContext, useState } from "react";
 import { Card, Alert } from "react-bootstrap";
 import { BookContext } from "../../context/BookContext";
-import axios from 'axios';
+import axios from "axios";
 import { AuthContext } from "../../context/AuthContext";
 
 const BookDetails = () => {
   const { bookState } = useContext(BookContext);
   const { state } = useContext(AuthContext);
 
-
-  const [ successMessage, setSuccessMessage] = useState();
-  const [ errorMessage, setErrorMessage] = useState();
-
+  const [successMessage, setSuccessMessage] = useState();
+  const [errorMessage, setErrorMessage] = useState();
 
   const switchToAnotherShelf = async (id, whichShelf) => {
     try {
@@ -23,19 +21,22 @@ const BookDetails = () => {
           "Content-Type": "application/json",
         },
       });
-      if(asyncResponse.status === 200) {
-        setSuccessMessage("Book was successfully moved!")
+      if (asyncResponse.status === 200) {
+        setSuccessMessage("Book was successfully moved!");
       }
     } catch (e) {
-      setErrorMessage(e.message)
+      setErrorMessage(e.message);
     }
   };
 
-
   return (
     <>
-    {successMessage && <Alert className="mt-1" variant="success">{successMessage}</Alert>}
-    {errorMessage && <Alert variant="danger">{errorMessage}</Alert>}
+      {successMessage && (
+        <Alert className="mt-1" variant="success">
+          {successMessage}
+        </Alert>
+      )}
+      {errorMessage && <Alert variant="danger">{errorMessage}</Alert>}
       <Card
         style={{
           marginTop: "1%",
@@ -58,22 +59,21 @@ const BookDetails = () => {
           <strong>Publisher: </strong> {bookState.book.publisher}
           <br />
           <strong>Published Date:</strong> {bookState.book.publishedDate}
-
-        <div className="mt-3">
-          <p>Change Shelf:</p>
-          <select
-            onChange={(e) => {
-              switchToAnotherShelf(bookState.book.id, e.target.value);
-            }}
-          >
-            <option defaultValue>Select shelf</option>
-            <option value="wantToRead">Want To Read</option>
-            <option value="currentlyReading">Currently Reading</option>
-            <option value="read">Read</option>
-          </select>
+          <div className="mt-3">
+            <p>Change Shelf:</p>
+            <select
+              onChange={(e) => {
+                switchToAnotherShelf(bookState.book.id, e.target.value);
+              }}
+            >
+              <option defaultValue>Select shelf</option>
+              <option value="wantToRead">Want To Read</option>
+              <option value="currentlyReading">Currently Reading</option>
+              <option value="read">Read</option>
+            </select>
+          </div>
         </div>
-        </div>
-        < br />
+        <br />
       </Card>
     </>
   );

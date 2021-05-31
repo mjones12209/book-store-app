@@ -1,4 +1,3 @@
-import React from 'react';
 import {
   BrowserRouter as Router,
   Switch,
@@ -8,15 +7,17 @@ import {
 import LoginForm from "../../components/LoginForm/LoginForm";
 import Nav from "../../components/Nav/Nav";
 import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
-import Search from '../../components/Search/Search';
-import BookShelf from '../../components/BookShelf/BookShelf';
+import Search from "../../components/Search/Search";
+import BookShelf from "../../components/BookShelf/BookShelf";
 import BookContextProvider from "../../context/BookContext";
-import BookDetails from '../../components/BookDetails/BookDetails';
+import BookDetails from "../../components/BookDetails/BookDetails";
+import AuthContextProvider from "../../context/AuthContext";
 
 const AppRouter = () => {
-    return (
-      <>
-        <Router>
+  return (
+    <>
+      <Router>
+        <AuthContextProvider>
           <Nav />
           <Switch>
             <Route path="/login">
@@ -24,28 +25,25 @@ const AppRouter = () => {
             </Route>
 
             <ProtectedRoute exact path="/search">
-              <BookContextProvider>
-                  <Search />
-              </BookContextProvider>
+              <Search />
             </ProtectedRoute>
 
             <ProtectedRoute exact path="/bookshelf">
-                <BookContextProvider>
-                  <BookShelf />
-                </BookContextProvider>
+              <BookShelf />
             </ProtectedRoute>
 
             <ProtectedRoute exact path="/bookdetails">
-                <BookContextProvider>
-                  <BookDetails />
-                </BookContextProvider>
+              <BookContextProvider>
+                <BookDetails />
+              </BookContextProvider>
             </ProtectedRoute>
 
             <Redirect to="/login" />
           </Switch>
-        </Router>
-      </>
-    );
-}
+        </AuthContextProvider>
+      </Router>
+    </>
+  );
+};
 
-export default AppRouter
+export default AppRouter;

@@ -1,32 +1,32 @@
-import { useContext } from 'react';
+import { useContext } from "react";
 import { Link } from "react-router-dom";
 import styles from "./Nav.module.css";
 import { BsSearch } from "react-icons/bs";
-import { AuthContext } from '../../context/AuthContext';
-import axios from 'axios';
+import { AuthContext } from "../../context/AuthContext";
+import axios from "axios";
 
 const Nav = () => {
-
   const { state, dispatch } = useContext(AuthContext);
 
-  const signOut = async()=> {
+  const signOut = async () => {
     try {
       const asyncResponse = await axios({
         method: "DELETE",
         url: "api/signout",
         headers: {
           Authorization: `Bearer ${state.token}`,
-          "Content-Type": "application/json"
-        }
-      })
-      if(asyncResponse.status === 200) {
-        dispatch({type: "LOGOUT"});
+          "Content-Type": "application/json",
+        },
+      });
+      if (asyncResponse.status === 200) {
+        dispatch({ type: "LOGOUT" });
+        window.localStorage.setItem("refresh", false);
       }
-    } catch(e) {
+    } catch (e) {
       dispatch({ type: "LOGOUT" });
-      console.log(e)
+      console.log(e);
     }
-  }
+  };
 
   return (
     <>
@@ -35,11 +35,13 @@ const Nav = () => {
         className="nav bg-light d-flex justify-content-between"
       >
         <Link className="nav-link" to="/bookshelf">
-         My Bookshelf
+          My Bookshelf
         </Link>
-        {state.isLoggedIn && <button className="nav-link" onClick={()=>signOut()}>
-          Sign Out
-        </button>}
+        {state.isLoggedIn && (
+          <button className="nav-link" onClick={() => signOut()}>
+            Sign Out
+          </button>
+        )}
         <Link className="nav-link" to="/search">
           {<BsSearch />} Search
         </Link>

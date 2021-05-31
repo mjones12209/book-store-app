@@ -2,9 +2,9 @@ import { useState, useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import { useForm } from "react-hook-form";
 import { Alert } from "react-bootstrap";
-import { useHistory } from 'react-router-dom';
+import { useHistory } from "react-router-dom";
 import axios from "axios";
-import styles from './LoginForm.module.css';
+import styles from "./LoginForm.module.css";
 
 const LoginForm = () => {
   const { dispatch } = useContext(AuthContext);
@@ -46,13 +46,10 @@ const LoginForm = () => {
           type: "LOGIN",
           payload: asyncResponse.data,
         });
-        console.log(asyncResponse)
         history.push("/bookshelf");
       }
     } catch (e) {
-      setError(
-        e.message
-      );
+      setError(e.message);
     }
   };
 

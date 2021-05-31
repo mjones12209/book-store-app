@@ -1,11 +1,11 @@
 import { useState, useEffect, useContext } from "react";
-import { useHistory } from 'react-router-dom';
+import { useHistory } from "react-router-dom";
 import { Card, Button } from "react-bootstrap";
 import { Alert } from "react-bootstrap";
 import { BookContext } from "../../../context/BookContext";
 import { AuthContext } from "../../../context/AuthContext";
-import axios from 'axios';
-import styles from './SearchResult.module.css';
+import axios from "axios";
+import styles from "./SearchResult.module.css";
 
 const SearchResult = ({ title, author, desc, picture, bookId }) => {
   const [showFullDesc, setShowFullDesc] = useState(true);
@@ -31,10 +31,10 @@ const SearchResult = ({ title, author, desc, picture, bookId }) => {
         },
       });
       if (asyncResponse.status === 200) {
-        setSuccessfulAdditionMessage("Successfully Added!")
+        setSuccessfulAdditionMessage("Successfully Added!");
       }
     } catch (e) {
-      setApiError(e.message)
+      setApiError(e.message);
     }
   };
 
@@ -45,7 +45,7 @@ const SearchResult = ({ title, author, desc, picture, bookId }) => {
         url: `/api/book/${bookId}`,
         headers: {
           Authorization: `Bearer ${state.token}`,
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
         },
       });
       if (asyncResponse.status === 200) {
@@ -58,7 +58,7 @@ const SearchResult = ({ title, author, desc, picture, bookId }) => {
     } catch (e) {
       console.log(e);
     }
-  }
+  };
 
   useEffect(() => {
     if (desc === "") {
@@ -77,27 +77,27 @@ const SearchResult = ({ title, author, desc, picture, bookId }) => {
         />
         <Card.Body>
           <Card.Link
-            id={styles['cardLink']}
+            id={styles["cardLink"]}
             style={{ fontWeight: "600" }}
-            onClick={
-              (e)=>viewDetails()
-            }
+            onClick={(e) => viewDetails()}
           >
             {title}
           </Card.Link>
           {<br />}
           <h6 className="mt-1">By {author}</h6>
-          {noDescriptionerror && <Alert variant="danger">{noDescriptionerror}</Alert>}
+          {noDescriptionerror && (
+            <Alert variant="danger">{noDescriptionerror}</Alert>
+          )}
           {apiError && <Alert variant="danger">{apiError}</Alert>}
-          {successfulAdditionMessage && <Alert variant="success">{successfulAdditionMessage}</Alert>}
+          {successfulAdditionMessage && (
+            <Alert variant="success">{successfulAdditionMessage}</Alert>
+          )}
           {<hr key={Math.random()} />}
-          {!showFullDesc && <strong key={Math.random() + 3}>Description</strong>}
+          {!showFullDesc && (
+            <strong key={Math.random() + 3}>Description</strong>
+          )}
           <Card.Text className="border-1">
-            {variableDesc === ""
-              ? null
-              : [
-                  variableDesc,
-                ]}
+            {variableDesc === "" ? null : [variableDesc]}
           </Card.Text>
           {!noDescriptionerror && (
             <Button
