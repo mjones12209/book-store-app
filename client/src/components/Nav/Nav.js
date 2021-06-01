@@ -20,7 +20,6 @@ const Nav = () => {
       });
       if (asyncResponse.status === 200) {
         dispatch({ type: "LOGOUT" });
-        window.localStorage.setItem("refresh", false);
       }
     } catch (e) {
       dispatch({ type: "LOGOUT" });
