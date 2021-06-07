@@ -9,7 +9,6 @@ import Nav from "../../components/Nav/Nav";
 import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
 import Search from "../../components/Search/Search";
 import BookShelf from "../../components/BookShelf/BookShelf";
-import BookContextProvider from "../../context/BookContext";
 import BookDetails from "../../components/BookDetails/BookDetails";
 import AuthContextProvider from "../../context/AuthContext";
 
@@ -18,28 +17,26 @@ const AppRouter = () => {
     <>
       <Router>
         <AuthContextProvider>
-          <Nav />
-          <Switch>
-            <Route path="/login">
-              <LoginForm />
-            </Route>
+            <Nav />
+            <Switch>
+              <Route path="/login">
+                <LoginForm />
+              </Route>
 
-            <ProtectedRoute exact path="/search">
-              <Search />
-            </ProtectedRoute>
+              <ProtectedRoute exact path="/search">
+                <Search />
+              </ProtectedRoute>
 
-            <ProtectedRoute exact path="/bookshelf">
-              <BookShelf />
-            </ProtectedRoute>
+              <ProtectedRoute exact path="/bookshelf">
+                <BookShelf />
+              </ProtectedRoute>
 
-            <ProtectedRoute exact path="/bookdetails">
-              <BookContextProvider>
+             <ProtectedRoute path="/book/:id">
                 <BookDetails />
-              </BookContextProvider>
-            </ProtectedRoute>
+              </ProtectedRoute>
 
-            <Redirect to="/login" />
-          </Switch>
+              <Redirect to="/login" />
+            </Switch>
         </AuthContextProvider>
       </Router>
     </>

@@ -32,11 +32,23 @@ const BookShelf = () => {
           <Card.Header as="h5">Want To Read</Card.Header>
           {bookShelfData &&
             bookShelfData.wantToRead.map((book, index) => {
+              let image;
+
+              if (
+                book.imageLinks === "" ||
+                book.imageLinks === undefined
+              ) {
+                image =
+                  "https://www.escapeauthority.com/wp-content/uploads/2116/11/No-image-found.jpg";
+              } else {
+                image = book.imageLinks.smallThumbnail;
+              }
+
               return (
                 <Book
                   title={book.title}
                   key={`book-${index}`}
-                  image={book.imageLinks.smallThumbnail}
+                  image={image}
                   bookId={book.id}
                   setBookShelfData={setBookShelfData}
                   bookShelfData={bookShelfData}
@@ -55,11 +67,22 @@ const BookShelf = () => {
           <Card.Header as="h5">Currently Reading</Card.Header>
           {bookShelfData &&
             bookShelfData.currentlyReading.map((book, index) => {
+              let image;
+
+              if (
+                book.imageLinks === "" ||
+                book.imageLinks === undefined
+              ) {
+                image =
+                  "https://www.escapeauthority.com/wp-content/uploads/2116/11/No-image-found.jpg";
+              } else {
+                image = book.imageLinks.smallThumbnail;
+              }
               return (
                 <Book
                   title={book.title}
                   key={`book-${index}`}
-                  image={book.imageLinks.smallThumbnail}
+                  image={image}
                   bookId={book.id}
                   setBookShelfData={setBookShelfData}
                   bookShelfData={bookShelfData}
@@ -78,11 +101,23 @@ const BookShelf = () => {
           <Card.Header as="h5">Read</Card.Header>
           {bookShelfData &&
             bookShelfData.read.map((book, index) => {
+              let image;
+
+              if (
+                book.imageLinks === "" ||
+                book.imageLinks === undefined
+              ) {
+                image =
+                  "https://www.escapeauthority.com/wp-content/uploads/2116/11/No-image-found.jpg";
+              } else {
+                image = book.imageLinks.smallThumbnail;
+              }
+
               return (
                 <Book
                   title={book.title}
                   key={`book-${index}`}
-                  image={book.imageLinks.smallThumbnail}
+                  image={image}
                   bookId={book.id}
                   setBookShelfData={setBookShelfData}
                   bookShelfData={bookShelfData}

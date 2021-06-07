@@ -1,13 +1,18 @@
 import { useState, useEffect, useContext } from "react";
-import { useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Card, Button } from "react-bootstrap";
 import { Alert } from "react-bootstrap";
-import { BookContext } from "../../../context/BookContext";
 import { AuthContext } from "../../../context/AuthContext";
 import axios from "axios";
 import styles from "./SearchResult.module.css";
 
 const SearchResult = ({ title, author, desc, picture, bookId }) => {
+
+  if( picture === "" || picture === undefined ) {
+    picture =
+      "https://www.escapeauthority.com/wp-content/uploads/2116/11/No-image-found.jpg";
+  }
+
   const [showFullDesc, setShowFullDesc] = useState(true);
   const [variableDesc, setVariableDesc] = useState(null);
   const [noDescriptionerror, setNoDescriptionError] = useState();
@@ -15,10 +20,7 @@ const SearchResult = ({ title, author, desc, picture, bookId }) => {
   const [successfulAdditionMessage, setSuccessfulAdditionMessage] = useState();
   const [whichShelf, setWhichShelf] = useState("wantToRead");
 
-  const history = useHistory();
-
   const { state } = useContext(AuthContext);
-  const { dispatch } = useContext(BookContext);
 
   const addToShelf = async (bookId, whichShelf) => {
     try {
@@ -38,27 +40,6 @@ const SearchResult = ({ title, author, desc, picture, bookId }) => {
     }
   };
 
-  const viewDetails = async () => {
-    try {
-      const asyncResponse = await axios({
-        method: "GET",
-        url: `/api/book/${bookId}`,
-        headers: {
-          Authorization: `Bearer ${state.token}`,
-          "Content-Type": "application/json",
-        },
-      });
-      if (asyncResponse.status === 200) {
-        dispatch({
-          type: "ADD_BOOK",
-          payload: asyncResponse.data.book,
-        });
-        history.push("/bookdetails");
-      }
-    } catch (e) {
-      console.log(e);
-    }
-  };
 
   useEffect(() => {
     if (desc === "") {
@@ -76,13 +57,13 @@ const SearchResult = ({ title, author, desc, picture, bookId }) => {
           style={{ width: "286px", height: "250px" }}
         />
         <Card.Body>
-          <Card.Link
+          <Link
             id={styles["cardLink"]}
             style={{ fontWeight: "600" }}
-            onClick={(e) => viewDetails()}
+            to={`/book/${bookId}`}
           >
             {title}
-          </Card.Link>
+          </Link>
           {<br />}
           <h6 className="mt-1">By {author}</h6>
           {noDescriptionerror && (
