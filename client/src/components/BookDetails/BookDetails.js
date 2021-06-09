@@ -1,37 +1,44 @@
 import { useContext, useState, useEffect } from "react";
-import { useHistory } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { Card, Alert } from "react-bootstrap";
 import axios from "axios";
 import { AuthContext } from "../../context/AuthContext";
 
+
 const BookDetails = () => {
   const { state } = useContext(AuthContext);
-
+  
+  const { paramBookId } =  useParams();
+  
   const [successMessage, setSuccessMessage] = useState();
   const [errorMessage, setErrorMessage] = useState();
   const [bookDetails, setBookDetails] = useState();
   const [isLoading, setIsLoading] = useState(false);
 
-  const history = useHistory();
 
   useEffect(() => {
     setIsLoading(true);
-    const getMovieDetails = async () => {
-      const url = `/api/book/${history.location.pathname.split("/")[2]}`;
-      const asyncResponse = await axios({
-        method: "GET",
-        url: url,
-        headers: {
-          Authorization: `Bearer ${state.token}`,
-          "Content-Type": "application/json",
-        },
-      });
-      if (asyncResponse.status === 200) {
-        setBookDetails(asyncResponse);
-        setIsLoading(false);
-      }
-    };
-    getMovieDetails();
+    try {
+      const getMovieDetails = async () => {
+        const url = `/api/book/${paramBookId}`;
+        const asyncResponse = await axios({
+          method: "GET",
+          url: url,
+          headers: {
+            Authorization: `Bearer ${state.token}`,
+            "Content-Type": "application/json",
+          },
+        });
+        if (asyncResponse.status === 200) {
+          setBookDetails(asyncResponse);
+          setIsLoading(false);
+        }
+      };
+      getMovieDetails();
+    } catch (e) {
+      setIsLoading(false);
+      setErrorMessage(e.message)
+    }
   }, []);
 
   const switchToAnotherShelf = async (id, whichShelf) => {

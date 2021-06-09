@@ -2,7 +2,7 @@ import {
   BrowserRouter as Router,
   Switch,
   Redirect,
-  Route,
+  Route
 } from "react-router-dom";
 import LoginForm from "../../components/LoginForm/LoginForm";
 import Nav from "../../components/Nav/Nav";
@@ -13,30 +13,31 @@ import BookDetails from "../../components/BookDetails/BookDetails";
 import AuthContextProvider from "../../context/AuthContext";
 
 const AppRouter = () => {
+
   return (
     <>
       <Router>
         <AuthContextProvider>
-            <Nav />
-            <Switch>
-              <Route path="/login">
-                <LoginForm />
-              </Route>
+          <Nav />
+          <Switch>
+            <Route path="/login">
+              <LoginForm />
+            </Route>
 
-              <ProtectedRoute exact path="/search">
-                <Search />
-              </ProtectedRoute>
+            <ProtectedRoute exact path="/search">
+              <Search />
+            </ProtectedRoute>
 
-              <ProtectedRoute exact path="/bookshelf">
-                <BookShelf />
-              </ProtectedRoute>
+            <ProtectedRoute exact path="/bookshelf">
+              <BookShelf />
+            </ProtectedRoute>
 
-             <ProtectedRoute path="/book/:id">
-                <BookDetails />
-              </ProtectedRoute>
+            <ProtectedRoute path="/book/:paramBookId">
+              <BookDetails />
+            </ProtectedRoute>
 
-              <Redirect to="/login" />
-            </Switch>
+            <Redirect to="/login" />
+          </Switch>
         </AuthContextProvider>
       </Router>
     </>

@@ -53,6 +53,7 @@ const AuthContextProvider = ({ children }) => {
           history.push("/bookshelf");
         }
       } catch (e) {
+        console.log(e.message)
       }
     }
     refreshToken();
