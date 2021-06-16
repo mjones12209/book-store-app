@@ -33,7 +33,7 @@
 
 * Refresh token, token will automatically be refreshed for you after you log on to preserve your session.
 
-* Responsivg design, thanks to react for state updates the design is very responsive. You will see the results of removing a book instantly for example or be notified of when something is being done or had been done.
+* Responsive design, thanks to react for state updates the design is very responsive. You will see the results of removing a book instantly for example or be notified of when something is being done or had been done.
 
 * The application works great on mobile devices.
 
