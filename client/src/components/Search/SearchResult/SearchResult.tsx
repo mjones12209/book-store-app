@@ -1,3 +1,4 @@
+import React, { CSSProperties } from 'react';
 import { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
 import { Card, Button } from "react-bootstrap";
@@ -6,23 +7,34 @@ import { AuthContext } from "../../../context/AuthContext";
 import axios from "axios";
 import styles from "./SearchResult.module.css";
 
-const SearchResult = ({ title, author, desc, picture, bookId }) => {
+interface Props {
+  title: string | null;
+  author: string | null;
+  desc: object | string | null;
+  picture: string | undefined;
+  bookId: string | null;
+}
+
+const SearchResult:React.FC<Props> = ({ title, author, desc, picture, bookId }) => {
 
   if( picture === "" || picture === undefined ) {
     picture =
       "https://www.escapeauthority.com/wp-content/uploads/2116/11/No-image-found.jpg";
   }
 
-  const [showFullDesc, setShowFullDesc] = useState(true);
-  const [variableDesc, setVariableDesc] = useState(null);
-  const [noDescriptionerror, setNoDescriptionError] = useState();
-  const [apiError, setApiError] = useState();
-  const [successfulAdditionMessage, setSuccessfulAdditionMessage] = useState();
-  const [whichShelf, setWhichShelf] = useState("wantToRead");
+  const [showFullDesc, setShowFullDesc] = useState<boolean>(true);
+  const [variableDesc, setVariableDesc] = useState<string | null>(null);
+  const [noDescriptionerror, setNoDescriptionError] = useState<string | null>();
+  const [apiError, setApiError] = useState<string | null>();
+  const [successfulAdditionMessage, setSuccessfulAdditionMessage] = useState<string | null>();
+  const [whichShelf, setWhichShelf] = useState<string | null>("wantToRead");
 
   const { state } = useContext(AuthContext);
 
-  const addToShelf = async (bookId, whichShelf) => {
+  const addToShelf = async (
+    bookId: string | null,
+    whichShelf: string | null
+  ) => {
     try {
       const asyncResponse = await axios({
         method: "PUT",
@@ -48,6 +60,10 @@ const SearchResult = ({ title, author, desc, picture, bookId }) => {
     setVariableDesc(showFullDesc ? desc.substring(0, 0) : desc);
   }, [showFullDesc, desc]);
 
+  const fontWeight = {
+    fontWeight: 'bold' as 'bold'
+  }
+
   return (
     <>
       <Card style={{ width: "18rem" }} className="mb-1 text-center">
@@ -59,7 +75,7 @@ const SearchResult = ({ title, author, desc, picture, bookId }) => {
         <Card.Body>
           <Link
             id={styles["cardLink"]}
-            style={{ fontWeight: "600" }}
+            style={{fontWeight}}
             to={`/book/${bookId}`}
           >
             {title}

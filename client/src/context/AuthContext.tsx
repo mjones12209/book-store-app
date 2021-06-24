@@ -1,8 +1,27 @@
+import React from "react";
 import { createContext, useReducer, useEffect } from "react";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
 
-const reducer = (state, action) => {
+interface State {
+  isLoggedIn: boolean;
+  token: string | null;
+}
+
+const initialState = {
+  isLoggedIn: false,
+  token: null,
+};
+
+type Action =
+  | { type: "LOGIN"; payload: { isLoggedIn: boolean; token: string | null } }
+  | { type: "LOGOUT"; payload: { isLoggedIn: boolean; token: null } }
+  | {
+      type: "UPDATE_TOKEN";
+      payload: { isLoggedIn: boolean; token: string | null };
+    };
+
+const reducer = (state: State, action: Action): State => {
   switch (action.type) {
     case "LOGIN":
       return {
@@ -11,7 +30,7 @@ const reducer = (state, action) => {
         token: action.payload.token,
       };
     case "LOGOUT":
-      return { initialState };
+      return { isLoggedIn: false, token: null };
     case "UPDATE_TOKEN":
       return {
         ...state,
@@ -23,14 +42,15 @@ const reducer = (state, action) => {
   }
 };
 
-const initialState = {
-  isLoggedIn: false,
-  token: null,
-};
+export const AuthContext = createContext<{
+  state: State;
+  dispatch: React.Dispatch<any>;
+}>({
+  state: initialState,
+  dispatch: () => null,
+});
 
-export const AuthContext = createContext(initialState);
-
-const AuthContextProvider = ({ children }) => {
+const AuthContextProvider: React.FC = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
   const history = useHistory();
@@ -53,9 +73,9 @@ const AuthContextProvider = ({ children }) => {
           history.push("/bookshelf");
         }
       } catch (e) {
-        console.log(e.message)
+        console.log(e.message);
       }
-    }
+    };
     refreshToken();
   }, []);
 

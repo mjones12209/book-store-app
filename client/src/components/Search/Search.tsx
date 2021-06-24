@@ -1,20 +1,32 @@
+import React from "react";
 import { useContext, useState, useEffect } from "react";
 import styles from "./Search.module.css";
 import { BsSearch } from "react-icons/bs";
 import axios from "axios";
 import { AuthContext } from "../../context/AuthContext";
-import { useForm } from "react-hook-form";
+import { useForm, SubmitHandler } from "react-hook-form";
 import { Alert } from "react-bootstrap";
 import SearchResult from "./SearchResult/SearchResult";
 
-const Search = () => {
+const Search: React.FC = () => {
+
+  interface Inputs {
+    query: string | null;
+    search: any;
+  }
+
+  interface localStorageItems {
+    searchTerm: string | null;
+    data: Array<any>;
+  }
+
   const {
     register,
     handleSubmit,
     getValues,
     setValue,
     formState: { errors },
-  } = useForm({
+  } = useForm<Inputs>({
     mode: "onSubmit",
     reValidateMode: "onChange",
     defaultValues: {},
@@ -27,21 +39,23 @@ const Search = () => {
 
   const { state } = useContext(AuthContext);
 
-  const [results, setResults] = useState([]);
+  const [ results, setResults ] = useState<Array<any> | null>([]);
 
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState<Boolean>(false);
 
   useEffect(() => {
-    const storedResults = JSON.parse(window.localStorage.getItem("results"));
+    const storedResults: localStorageItems = JSON.parse(
+      window.localStorage.getItem("results") as string
+    );
     if (storedResults) {
-      setValue("query", storedResults.searchTerm);
+      setValue("query" , storedResults.searchTerm );
       setResults(storedResults.data);
     }
   }, [setValue]);
 
-  const [apiError, setApiError] = useState();
+  const [apiError, setApiError] = useState<String>();
 
-  const search = async (data) => {
+  const search: Function = async (data: any) => {
     try {
       setIsLoading(true);
       const asyncResponse = await axios({
@@ -74,6 +88,10 @@ const Search = () => {
     }
   };
 
+  const searchQuery: string | null = getValues("query");
+
+  const onSubmit: SubmitHandler<Inputs> = (data) => search(data);
+
   return (
     <>
       {apiError && (
@@ -88,7 +106,7 @@ const Search = () => {
       )}
       <h1 className="text-center">Search</h1>
       <form
-        onSubmit={handleSubmit(search)}
+        onSubmit={handleSubmit(onSubmit)}
         id={styles["search-form"]}
         className="d-flex col-md-4 my-2"
       >
@@ -120,7 +138,7 @@ const Search = () => {
       </form>
       {window.localStorage.getItem("results") && (
         <h2 className="text-center">
-          Search results for "{getValues("query")}"
+          Search results for "{searchQuery}"
         </h2>
       )}
       <div id={styles["searchResults"]}>

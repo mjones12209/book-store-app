@@ -1,3 +1,4 @@
+import React from 'react';
 import {
   BrowserRouter as Router,
   Switch,
@@ -12,7 +13,7 @@ import BookShelf from "../../components/BookShelf/BookShelf";
 import BookDetails from "../../components/BookDetails/BookDetails";
 import AuthContextProvider from "../../context/AuthContext";
 
-const AppRouter = () => {
+const AppRouter: React.FC<{}> = () => {
 
   return (
     <>
