@@ -1,4 +1,4 @@
-import React, { CSSProperties } from 'react';
+import React from 'react';
 import { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
 import { Card, Button } from "react-bootstrap";
@@ -8,11 +8,11 @@ import axios from "axios";
 import styles from "./SearchResult.module.css";
 
 interface Props {
-  title: string | null;
-  author: string | null;
-  desc: object | string | null;
+  title: string | undefined;
+  author: string | undefined;
+  desc: string | undefined;
   picture: string | undefined;
-  bookId: string | null;
+  bookId: string | undefined;
 }
 
 const SearchResult:React.FC<Props> = ({ title, author, desc, picture, bookId }) => {
@@ -23,17 +23,23 @@ const SearchResult:React.FC<Props> = ({ title, author, desc, picture, bookId }) 
   }
 
   const [showFullDesc, setShowFullDesc] = useState<boolean>(true);
-  const [variableDesc, setVariableDesc] = useState<string | null>(null);
-  const [noDescriptionerror, setNoDescriptionError] = useState<string | null>();
-  const [apiError, setApiError] = useState<string | null>();
-  const [successfulAdditionMessage, setSuccessfulAdditionMessage] = useState<string | null>();
-  const [whichShelf, setWhichShelf] = useState<string | null>("wantToRead");
+  const [variableDesc, setVariableDesc] = useState<string | undefined>();
+  const [noDescriptionerror, setNoDescriptionError] = useState<
+    string | undefined
+  >();
+  const [apiError, setApiError] = useState<string | undefined>();
+  const [successfulAdditionMessage, setSuccessfulAdditionMessage] = useState<
+    string | undefined
+  >();
+  const [whichShelf, setWhichShelf] = useState<string | undefined>(
+    "wantToRead"
+  );
 
   const { state } = useContext(AuthContext);
 
-  const addToShelf = async (
-    bookId: string | null,
-    whichShelf: string | null
+  const addToShelf: Function = async (
+    bookId: string | undefined,
+    whichShelf: string | undefined
   ) => {
     try {
       const asyncResponse = await axios({
@@ -57,11 +63,11 @@ const SearchResult:React.FC<Props> = ({ title, author, desc, picture, bookId }) 
     if (desc === "") {
       setNoDescriptionError("Sorry there was no description available");
     }
-    setVariableDesc(showFullDesc ? desc.substring(0, 0) : desc);
+    setVariableDesc(showFullDesc ? desc?.substring(0, 0) : desc);
   }, [showFullDesc, desc]);
 
   const fontWeight = {
-    fontWeight: 'bold' as 'bold'
+    fontWeight: 600 as number
   }
 
   return (
@@ -75,7 +81,7 @@ const SearchResult:React.FC<Props> = ({ title, author, desc, picture, bookId }) 
         <Card.Body>
           <Link
             id={styles["cardLink"]}
-            style={{fontWeight}}
+            style={fontWeight}
             to={`/book/${bookId}`}
           >
             {title}
@@ -115,7 +121,7 @@ const SearchResult:React.FC<Props> = ({ title, author, desc, picture, bookId }) 
               setWhichShelf(e.target.value);
             }}
           >
-            <option value="wantToRead" defaultValue>
+            <option value="wantToRead" defaultValue="true">
               Want To Read
             </option>
             <option value="currentlyReading">Currenty Reading</option>
