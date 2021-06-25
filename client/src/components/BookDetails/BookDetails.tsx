@@ -1,32 +1,32 @@
-import React from 'react';
+import React from "react";
 import { useContext, useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { Card, Alert } from "react-bootstrap";
 import axios, { AxiosResponse } from "axios";
 import { AuthContext } from "../../context/AuthContext";
 
-
 interface Params {
   paramBookId: string | undefined;
 }
 
-const BookDetails:React.FC<{}> = () => {
+const BookDetails: React.FC<{}> = () => {
   const { state } = useContext(AuthContext);
-  
-  const { paramBookId } =  useParams<Params>();
-  
+
+  const { paramBookId } = useParams<Params>();
+
   const [successMessage, setSuccessMessage] = useState<string | undefined>();
   const [errorMessage, setErrorMessage] = useState<string | undefined>();
-  const [bookDetails, setBookDetails] = useState<AxiosResponse<any> | undefined>();
+  const [bookDetails, setBookDetails] = useState<
+    AxiosResponse<any> | undefined
+  >();
   const [isLoading, setIsLoading] = useState<boolean>(false);
-
 
   useEffect(() => {
     setIsLoading(true);
     try {
-      const getMovieDetails:Function = async () => {
+      const getMovieDetails: Function = async () => {
         const url = `/api/book/${paramBookId}`;
-        const asyncResponse:AxiosResponse<any> = await axios({
+        const asyncResponse: AxiosResponse<any> = await axios({
           method: "GET",
           url: url,
           headers: {
@@ -42,13 +42,16 @@ const BookDetails:React.FC<{}> = () => {
       getMovieDetails();
     } catch (e) {
       setIsLoading(false);
-      setErrorMessage(e.message)
+      setErrorMessage(e.message);
     }
   }, []);
 
-  const switchToAnotherShelf:Function = async (id:string, whichShelf:string) => {
+  const switchToAnotherShelf: Function = async (
+    id: string,
+    whichShelf: string
+  ) => {
     try {
-      const asyncResponse:AxiosResponse<any> = await axios({
+      const asyncResponse: AxiosResponse<any> = await axios({
         method: "PUT",
         url: `/api/bookshelf/${id}/${whichShelf}`,
         headers: {

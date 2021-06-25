@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
 import { Card, Button } from "react-bootstrap";
@@ -15,9 +15,14 @@ interface Props {
   bookId: string | undefined;
 }
 
-const SearchResult:React.FC<Props> = ({ title, author, desc, picture, bookId }) => {
-
-  if( picture === "" || picture === undefined ) {
+const SearchResult: React.FC<Props> = ({
+  title,
+  author,
+  desc,
+  picture,
+  bookId,
+}) => {
+  if (picture === "" || picture === undefined) {
     picture =
       "https://www.escapeauthority.com/wp-content/uploads/2116/11/No-image-found.jpg";
   }
@@ -58,17 +63,12 @@ const SearchResult:React.FC<Props> = ({ title, author, desc, picture, bookId }) 
     }
   };
 
-
   useEffect(() => {
     if (desc === "") {
       setNoDescriptionError("Sorry there was no description available");
     }
     setVariableDesc(showFullDesc ? desc?.substring(0, 0) : desc);
   }, [showFullDesc, desc]);
-
-  const fontWeight = {
-    fontWeight: 600 as number
-  }
 
   return (
     <>
@@ -81,7 +81,7 @@ const SearchResult:React.FC<Props> = ({ title, author, desc, picture, bookId }) 
         <Card.Body>
           <Link
             id={styles["cardLink"]}
-            style={fontWeight}
+            style={{ fontWeight: 600 }}
             to={`/book/${bookId}`}
           >
             {title}

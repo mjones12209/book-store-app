@@ -34,7 +34,7 @@ const LoginForm = () => {
     shouldUnregister: false,
   });
 
-  const login:Function = async (username:string, password:string) => {
+  const login: Function = async (username: string, password: string) => {
     try {
       const asyncResponse = await axios({
         method: "POST",
@@ -59,7 +59,7 @@ const LoginForm = () => {
     }
   };
 
-  const onSubmit:SubmitHandler<Inputs> = (formData: Inputs) => {
+  const onSubmit: SubmitHandler<Inputs> = (formData: Inputs) => {
     login(formData.username, formData.passwordValid);
   };
 

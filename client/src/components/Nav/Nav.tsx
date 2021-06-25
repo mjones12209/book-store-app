@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import { useContext } from "react";
 import { Link } from "react-router-dom";
 import styles from "./Nav.module.css";
@@ -6,11 +6,10 @@ import { BsSearch } from "react-icons/bs";
 import { AuthContext } from "../../context/AuthContext";
 import axios from "axios";
 
-const Nav:React.FC<{}> = () => {
-  
+const Nav: React.FC<{}> = () => {
   const { state, dispatch } = useContext(AuthContext);
 
-  const signOut:Function = async () => {
+  const signOut: Function = async () => {
     try {
       const asyncResponse = await axios({
         method: "DELETE",

@@ -1,6 +1,6 @@
 import React from "react";
 import { createContext, useReducer, useEffect } from "react";
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
 import { useHistory } from "react-router-dom";
 
 interface State {
@@ -56,9 +56,9 @@ const AuthContextProvider: React.FC = ({ children }) => {
   const history = useHistory();
 
   useEffect(() => {
-    const refreshToken = async () => {
+    const refreshToken:Function = async () => {
       try {
-        const asyncResponse = await axios({
+        const asyncResponse:AxiosResponse<any> = await axios({
           method: "GET",
           url: "/api/refresh",
           headers: {

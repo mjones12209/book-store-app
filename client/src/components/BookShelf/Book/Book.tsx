@@ -12,13 +12,12 @@ interface Props {
   setBookShelfData: React.SetStateAction<any>;
 }
 
-const Book:React.FC<Props> = ({ title, image, bookId, setBookShelfData }) => {
-
+const Book: React.FC<Props> = ({ title, image, bookId, setBookShelfData }) => {
   const { state } = useContext(AuthContext);
 
-  const deleteBook:Function = async (bookId:String) => {
+  const deleteBook: Function = async (bookId: String) => {
     try {
-      const asyncResponse:AxiosResponse<any> = await axios({
+      const asyncResponse: AxiosResponse<any> = await axios({
         method: "DELETE",
         url: `/api/bookshelf/${bookId}`,
         headers: {
@@ -46,10 +45,13 @@ const Book:React.FC<Props> = ({ title, image, bookId, setBookShelfData }) => {
     }
   };
 
-  const switchToAnotherShelf:Function = async (id:String, whichShelf:String) => {
+  const switchToAnotherShelf: Function = async (
+    id: String,
+    whichShelf: String
+  ) => {
     if (whichShelf !== "Select shelf") {
       try {
-        const asyncResponse:AxiosResponse<any> = await axios({
+        const asyncResponse: AxiosResponse<any> = await axios({
           method: "PUT",
           url: `/api/bookshelf/${id}/${whichShelf}`,
           headers: {
@@ -80,7 +82,13 @@ const Book:React.FC<Props> = ({ title, image, bookId, setBookShelfData }) => {
 
   return (
     <div id={styles["bookContainer"]}>
-      <img id={styles["img"]} src={image} alt={title} height="193" width="128" />
+      <img
+        id={styles["img"]}
+        src={image}
+        alt={title}
+        height="193"
+        width="128"
+      />
       <div id={styles["ul"]}>
         <Link
           id={styles["cardLink"]}

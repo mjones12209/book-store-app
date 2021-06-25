@@ -18,7 +18,7 @@ const BookShelf: React.FC<{}> = () => {
 
   useEffect(() => {
     (async () => {
-      const response:AxiosResponse<any> = await axios({
+      const response: AxiosResponse<any> = await axios({
         method: "GET",
         url: "/api/bookshelf",
         headers: {
@@ -57,9 +57,7 @@ const BookShelf: React.FC<{}> = () => {
                 image = book.imageLinks.smallThumbnail;
               }
 
-              return (
-                <Book {...bookProps} />
-              );
+              return <Book {...bookProps} />;
             })}
           {bookShelfData && bookShelfData.wantToRead.length === 0 ? (
             <Alert variant="secondary" className="mt-1">
@@ -91,9 +89,7 @@ const BookShelf: React.FC<{}> = () => {
                 image = book.imageLinks.smallThumbnail;
               }
 
-              return (
-              <Book {...bookProps} />
-              );
+              return <Book {...bookProps} />;
             })}
           {bookShelfData && bookShelfData.currentlyReading.length === 0 ? (
             <Alert variant="secondary" className="mt-1">
@@ -117,7 +113,7 @@ const BookShelf: React.FC<{}> = () => {
                 setBookShelfData: setBookShelfData,
                 bookShelfData: bookShelfData,
               };
-              
+
               if (book.imageLinks === "" || book.imageLinks === undefined) {
                 image =
                   "https://www.escapeauthority.com/wp-content/uploads/2116/11/No-image-found.jpg";
@@ -125,9 +121,7 @@ const BookShelf: React.FC<{}> = () => {
                 image = book.imageLinks.smallThumbnail;
               }
 
-              return (
-                <Book {...bookProps}/>
-              );
+              return <Book {...bookProps} />;
             })}
           {bookShelfData && bookShelfData.read.length === 0 ? (
             <Alert variant="secondary" className="mt-1">

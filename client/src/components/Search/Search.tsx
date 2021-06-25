@@ -2,14 +2,13 @@ import React from "react";
 import { useContext, useState, useEffect } from "react";
 import styles from "./Search.module.css";
 import { BsSearch } from "react-icons/bs";
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
 import { AuthContext } from "../../context/AuthContext";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { Alert } from "react-bootstrap";
 import SearchResult from "./SearchResult/SearchResult";
 
 const Search: React.FC = () => {
-
   interface Inputs {
     query: string | null;
   }
@@ -38,7 +37,7 @@ const Search: React.FC = () => {
 
   const { state } = useContext(AuthContext);
 
-  const [ results, setResults ] = useState<Array<any> | null>([]);
+  const [results, setResults] = useState<Array<any> | null>([]);
 
   const [isLoading, setIsLoading] = useState<Boolean>(false);
 
@@ -47,7 +46,7 @@ const Search: React.FC = () => {
       window.localStorage.getItem("results") as string
     );
     if (storedResults) {
-      setValue("query" , storedResults.searchTerm );
+      setValue("query", storedResults.searchTerm);
       setResults(storedResults.data);
     }
   }, [setValue]);
@@ -57,7 +56,7 @@ const Search: React.FC = () => {
   const search: Function = async (data: any) => {
     try {
       setIsLoading(true);
-      const asyncResponse = await axios({
+      const asyncResponse: AxiosResponse<any> = await axios({
         method: "GET",
         url: `/api/book/search/${data.query.split(" ").join("+")}`,
         headers: {
@@ -136,9 +135,7 @@ const Search: React.FC = () => {
         </button>
       </form>
       {window.localStorage.getItem("results") && (
-        <h2 className="text-center">
-          Search results for "{searchQuery}"
-        </h2>
+        <h2 className="text-center">Search results for "{searchQuery}"</h2>
       )}
       <div id={styles["searchResults"]}>
         {results &&
