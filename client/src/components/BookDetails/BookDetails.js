@@ -52,12 +52,12 @@ const BookDetails = () => {
         },
       });
       if (asyncResponse.status === 200) {
-        setSuccessMessage("Book was successfully moved!");
+        setSuccessMessage("Book was successfully moved/added!");
       }
     } catch (e) {
       setErrorMessage(e.message);
     }
-  };
+  }; 
 
   return (
     <>
