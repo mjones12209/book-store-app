@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "react-bootstrap";
 import styles from "./Book.module.css";
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
 import { AuthContext } from "../../../context/AuthContext";
 
 interface Props {
@@ -18,7 +18,7 @@ const Book:React.FC<Props> = ({ title, image, bookId, setBookShelfData }) => {
 
   const deleteBook:Function = async (bookId:String) => {
     try {
-      const asyncResponse = await axios({
+      const asyncResponse:AxiosResponse<any> = await axios({
         method: "DELETE",
         url: `/api/bookshelf/${bookId}`,
         headers: {
@@ -49,7 +49,7 @@ const Book:React.FC<Props> = ({ title, image, bookId, setBookShelfData }) => {
   const switchToAnotherShelf:Function = async (id:String, whichShelf:String) => {
     if (whichShelf !== "Select shelf") {
       try {
-        const asyncResponse = await axios({
+        const asyncResponse:AxiosResponse<any> = await axios({
           method: "PUT",
           url: `/api/bookshelf/${id}/${whichShelf}`,
           headers: {

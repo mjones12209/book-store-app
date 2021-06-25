@@ -1,27 +1,32 @@
+import React from 'react';
 import { useContext, useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { Card, Alert } from "react-bootstrap";
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
 import { AuthContext } from "../../context/AuthContext";
 
 
-const BookDetails = () => {
+interface Params {
+  paramBookId: string | undefined;
+}
+
+const BookDetails:React.FC<{}> = () => {
   const { state } = useContext(AuthContext);
   
-  const { paramBookId } =  useParams();
+  const { paramBookId } =  useParams<Params>();
   
-  const [successMessage, setSuccessMessage] = useState();
-  const [errorMessage, setErrorMessage] = useState();
-  const [bookDetails, setBookDetails] = useState();
-  const [isLoading, setIsLoading] = useState(false);
+  const [successMessage, setSuccessMessage] = useState<string | undefined>();
+  const [errorMessage, setErrorMessage] = useState<string | undefined>();
+  const [bookDetails, setBookDetails] = useState<AxiosResponse<any> | undefined>();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
 
   useEffect(() => {
     setIsLoading(true);
     try {
-      const getMovieDetails = async () => {
+      const getMovieDetails:Function = async () => {
         const url = `/api/book/${paramBookId}`;
-        const asyncResponse = await axios({
+        const asyncResponse:AxiosResponse<any> = await axios({
           method: "GET",
           url: url,
           headers: {
@@ -41,9 +46,9 @@ const BookDetails = () => {
     }
   }, []);
 
-  const switchToAnotherShelf = async (id, whichShelf) => {
+  const switchToAnotherShelf:Function = async (id:string, whichShelf:string) => {
     try {
-      const asyncResponse = await axios({
+      const asyncResponse:AxiosResponse<any> = await axios({
         method: "PUT",
         url: `/api/bookshelf/${id}/${whichShelf}`,
         headers: {
@@ -106,7 +111,7 @@ const BookDetails = () => {
                   );
                 }}
               >
-                <option defaultValue>Select shelf</option>
+                <option defaultValue="true">Select shelf</option>
                 <option value="wantToRead">Want To Read</option>
                 <option value="currentlyReading">Currently Reading</option>
                 <option value="read">Read</option>
