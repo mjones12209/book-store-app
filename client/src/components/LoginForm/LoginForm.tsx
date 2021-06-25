@@ -84,6 +84,8 @@ const LoginForm = () => {
               id="username"
               {...register("username", {
                 required: "This is a required field.",
+                setValueAs: (val) => val.trim(),
+                minLength: 5,
                 maxLength: 30,
               })}
             />
@@ -91,8 +93,10 @@ const LoginForm = () => {
               <Alert className="mt-1" variant="danger">
                 {errors.username?.type === "required" &&
                   errors.username.message}
-                {errors.username?.type === "maxlength" &&
-                  "Max length of title is 30 characters!"}
+                {errors.username?.type === "maxLength" &&
+                  "Max length of username is 30 characters!"}
+                {errors.username?.type === "minLength" &&
+                  "Min length of username is 5 characters!"}
               </Alert>
             )}
           </div>
@@ -103,6 +107,8 @@ const LoginForm = () => {
               className="form-control"
               {...register("passwordValid", {
                 required: "This is a required field.",
+                setValueAs: (val) => val.trim(),
+                minLength: 6,
                 maxLength: 30,
               })}
             />
@@ -110,8 +116,10 @@ const LoginForm = () => {
               <Alert className="mt-1" variant="danger">
                 {errors.passwordValid?.type === "required" &&
                   errors.passwordValid.message}
-                {errors.passwordValid?.type === "maxlength" &&
-                  "Max length of title is 30 characters!"}
+                {errors.passwordValid?.type === "maxLength" &&
+                  "Max length of password is 30 characters!"}
+                {errors.passwordValid?.type === "minLength" &&
+                  "Min length of password is 6 characters!"}
               </Alert>
             )}
           </div>
