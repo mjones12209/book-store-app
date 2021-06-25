@@ -1,17 +1,24 @@
+import React from "react";
 import { useContext, useEffect, useState } from "react";
 import { Card, Alert } from "react-bootstrap";
 import styles from "./BookShelf.module.css";
 import { AuthContext } from "../../context/AuthContext";
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
 import Book from "./Book/Book";
 
-const BookShelf = () => {
+interface bookShelfData {
+  wantToRead: Array<any>;
+  read: Array<any>;
+  currentlyReading: Array<any>;
+}
+
+const BookShelf: React.FC<{}> = () => {
   const { state } = useContext(AuthContext);
-  const [bookShelfData, setBookShelfData] = useState();
+  const [bookShelfData, setBookShelfData] = useState<bookShelfData>();
 
   useEffect(() => {
     (async () => {
-      const response = await axios({
+      const response:AxiosResponse<any> = await axios({
         method: "GET",
         url: "/api/bookshelf",
         headers: {
@@ -34,10 +41,16 @@ const BookShelf = () => {
             bookShelfData.wantToRead.map((book, index) => {
               let image;
 
-              if (
-                book.imageLinks === "" ||
-                book.imageLinks === undefined
-              ) {
+              const bookProps = {
+                title: book.title,
+                key: `book-${index}`,
+                image: image,
+                bookId: book.id,
+                setBookShelfData: setBookShelfData,
+                bookShelfData: bookShelfData,
+              };
+
+              if (book.imageLinks === "" || book.imageLinks === undefined) {
                 image =
                   "https://www.escapeauthority.com/wp-content/uploads/2116/11/No-image-found.jpg";
               } else {
@@ -45,14 +58,7 @@ const BookShelf = () => {
               }
 
               return (
-                <Book
-                  title={book.title}
-                  key={`book-${index}`}
-                  image={image}
-                  bookId={book.id}
-                  setBookShelfData={setBookShelfData}
-                  bookShelfData={bookShelfData}
-                />
+                <Book {...bookProps} />
               );
             })}
           {bookShelfData && bookShelfData.wantToRead.length === 0 ? (
@@ -69,24 +75,24 @@ const BookShelf = () => {
             bookShelfData.currentlyReading.map((book, index) => {
               let image;
 
-              if (
-                book.imageLinks === "" ||
-                book.imageLinks === undefined
-              ) {
+              const bookProps = {
+                title: book.title,
+                key: `book-${index}`,
+                image: image,
+                bookId: book.id,
+                setBookShelfData: setBookShelfData,
+                bookShelfData: bookShelfData,
+              };
+
+              if (book.imageLinks === "" || book.imageLinks === undefined) {
                 image =
                   "https://www.escapeauthority.com/wp-content/uploads/2116/11/No-image-found.jpg";
               } else {
                 image = book.imageLinks.smallThumbnail;
               }
+
               return (
-                <Book
-                  title={book.title}
-                  key={`book-${index}`}
-                  image={image}
-                  bookId={book.id}
-                  setBookShelfData={setBookShelfData}
-                  bookShelfData={bookShelfData}
-                />
+              <Book {...bookProps} />
               );
             })}
           {bookShelfData && bookShelfData.currentlyReading.length === 0 ? (
@@ -103,10 +109,16 @@ const BookShelf = () => {
             bookShelfData.read.map((book, index) => {
               let image;
 
-              if (
-                book.imageLinks === "" ||
-                book.imageLinks === undefined
-              ) {
+              const bookProps = {
+                title: book.title,
+                key: `book-${index}`,
+                image: image,
+                bookId: book.id,
+                setBookShelfData: setBookShelfData,
+                bookShelfData: bookShelfData,
+              };
+              
+              if (book.imageLinks === "" || book.imageLinks === undefined) {
                 image =
                   "https://www.escapeauthority.com/wp-content/uploads/2116/11/No-image-found.jpg";
               } else {
@@ -114,14 +126,7 @@ const BookShelf = () => {
               }
 
               return (
-                <Book
-                  title={book.title}
-                  key={`book-${index}`}
-                  image={image}
-                  bookId={book.id}
-                  setBookShelfData={setBookShelfData}
-                  bookShelfData={bookShelfData}
-                />
+                <Book {...bookProps}/>
               );
             })}
           {bookShelfData && bookShelfData.read.length === 0 ? (
