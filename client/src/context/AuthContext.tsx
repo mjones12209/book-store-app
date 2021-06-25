@@ -21,7 +21,7 @@ type Action =
       payload: { isLoggedIn: boolean; token: string | null };
     };
 
-const reducer = (state: State, action: Action): State => {
+const reducer:React.Reducer<State, Action> = (state: State, action: Action): State => {
   switch (action.type) {
     case "LOGIN":
       return {
