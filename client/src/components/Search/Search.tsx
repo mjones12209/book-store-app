@@ -12,7 +12,6 @@ const Search: React.FC = () => {
 
   interface Inputs {
     query: string | null;
-    search: any;
   }
 
   interface localStorageItems {
