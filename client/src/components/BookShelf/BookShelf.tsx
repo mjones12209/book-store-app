@@ -12,6 +12,15 @@ interface bookShelfData {
   currentlyReading: Array<any>;
 }
 
+interface bookProps {
+  title: string | undefined;
+  key: string | undefined;
+  image: string | undefined;
+  bookId: string | undefined;
+  setBookShelfData: React.SetStateAction<any>;
+  bookShelfData: object;
+}
+
 const BookShelf: React.FC<{}> = () => {
   const { state } = useContext(AuthContext);
   const [bookShelfData, setBookShelfData] = useState<bookShelfData>();
@@ -41,7 +50,14 @@ const BookShelf: React.FC<{}> = () => {
             bookShelfData.wantToRead.map((book, index) => {
               let image;
 
-              const bookProps = {
+              if (book.imageLinks === "" || book.imageLinks === undefined) {
+                image =
+                  "https://www.escapeauthority.com/wp-content/uploads/2116/11/No-image-found.jpg";
+              } else {
+                image = book.imageLinks.smallThumbnail;
+              }
+
+              const bookProps: bookProps = {
                 title: book.title,
                 key: `book-${index}`,
                 image: image,
@@ -50,12 +66,6 @@ const BookShelf: React.FC<{}> = () => {
                 bookShelfData: bookShelfData,
               };
 
-              if (book.imageLinks === "" || book.imageLinks === undefined) {
-                image =
-                  "https://www.escapeauthority.com/wp-content/uploads/2116/11/No-image-found.jpg";
-              } else {
-                image = book.imageLinks.smallThumbnail;
-              }
 
               return <Book {...bookProps} />;
             })}
@@ -72,8 +82,15 @@ const BookShelf: React.FC<{}> = () => {
           {bookShelfData &&
             bookShelfData.currentlyReading.map((book, index) => {
               let image;
+              
+              if (book.imageLinks === "" || book.imageLinks === undefined) {
+                image =
+                  "https://www.escapeauthority.com/wp-content/uploads/2116/11/No-image-found.jpg";
+              } else {
+                image = book.imageLinks.smallThumbnail;
+              }
 
-              const bookProps = {
+              const bookProps: bookProps = {
                 title: book.title,
                 key: `book-${index}`,
                 image: image,
@@ -82,12 +99,6 @@ const BookShelf: React.FC<{}> = () => {
                 bookShelfData: bookShelfData,
               };
 
-              if (book.imageLinks === "" || book.imageLinks === undefined) {
-                image =
-                  "https://www.escapeauthority.com/wp-content/uploads/2116/11/No-image-found.jpg";
-              } else {
-                image = book.imageLinks.smallThumbnail;
-              }
 
               return <Book {...bookProps} />;
             })}
@@ -105,7 +116,14 @@ const BookShelf: React.FC<{}> = () => {
             bookShelfData.read.map((book, index) => {
               let image;
 
-              const bookProps = {
+              if (book.imageLinks === "" || book.imageLinks === undefined) {
+                image =
+                  "https://www.escapeauthority.com/wp-content/uploads/2116/11/No-image-found.jpg";
+              } else {
+                image = book.imageLinks.smallThumbnail;
+              }
+
+              const bookProps: bookProps = {
                 title: book.title,
                 key: `book-${index}`,
                 image: image,
@@ -113,13 +131,6 @@ const BookShelf: React.FC<{}> = () => {
                 setBookShelfData: setBookShelfData,
                 bookShelfData: bookShelfData,
               };
-
-              if (book.imageLinks === "" || book.imageLinks === undefined) {
-                image =
-                  "https://www.escapeauthority.com/wp-content/uploads/2116/11/No-image-found.jpg";
-              } else {
-                image = book.imageLinks.smallThumbnail;
-              }
 
               return <Book {...bookProps} />;
             })}
