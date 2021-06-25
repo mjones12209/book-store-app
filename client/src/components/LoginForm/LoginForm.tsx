@@ -52,6 +52,7 @@ const LoginForm = () => {
           type: "LOGIN",
           payload: asyncResponse.data,
         });
+        window.localStorage.setItem("refresh","1");
         history.push("/bookshelf");
       }
     } catch (e) {

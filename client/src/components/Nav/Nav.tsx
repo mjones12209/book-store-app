@@ -20,6 +20,7 @@ const Nav: React.FC<{}> = () => {
         },
       });
       if (asyncResponse.status === 200) {
+        window.localStorage.removeItem("refresh");
         dispatch({ type: "LOGOUT" });
       }
     } catch (e) {

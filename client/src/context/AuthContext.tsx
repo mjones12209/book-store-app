@@ -56,27 +56,29 @@ const AuthContextProvider: React.FC = ({ children }) => {
   const history = useHistory();
 
   useEffect(() => {
-    const refreshToken:Function = async () => {
+    if(window.localStorage.getItem("refresh")){
+      const refreshToken:Function = async () => {
       try {
-        const asyncResponse:AxiosResponse<any> = await axios({
-          method: "GET",
-          url: "/api/refresh",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
-        if (asyncResponse.status === 200) {
-          dispatch({
-            type: "UPDATE_TOKEN",
-            payload: { token: asyncResponse.data.token, isLoggedIn: true },
+          const asyncResponse:AxiosResponse<any> = await axios({
+            method: "GET",
+            url: "/api/refresh",
+            headers: {
+              "Content-Type": "application/json",
+            },
           });
-          history.push("/bookshelf");
+          if (asyncResponse.status === 200) {
+            dispatch({
+              type: "UPDATE_TOKEN",
+              payload: { token: asyncResponse.data.token, isLoggedIn: true },
+            });
+            history.push("/bookshelf");
+          }
+        } catch (e) {
+          console.log(e.message);
         }
-      } catch (e) {
-        console.log(e.message);
       }
+      refreshToken();
     };
-    refreshToken();
   }, []);
 
   return (
