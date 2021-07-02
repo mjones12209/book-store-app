@@ -3,7 +3,7 @@ import { AuthContext } from "../../context/AuthContext";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Alert } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
 import styles from "./LoginForm.module.css";
 
 interface Inputs {
@@ -36,7 +36,7 @@ const LoginForm = () => {
 
   const login: Function = async (username: string, password: string) => {
     try {
-      const asyncResponse = await axios({
+      const asyncResponse: AxiosResponse<any> = await axios({
         method: "POST",
         url: "/api/signin",
         headers: {

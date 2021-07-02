@@ -4,14 +4,14 @@ import { Link } from "react-router-dom";
 import styles from "./Nav.module.css";
 import { BsSearch } from "react-icons/bs";
 import { AuthContext } from "../../context/AuthContext";
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
 
 const Nav: React.FC<{}> = () => {
   const { state, dispatch } = useContext(AuthContext);
 
   const signOut: Function = async () => {
     try {
-      const asyncResponse = await axios({
+      const asyncResponse: AxiosResponse<any> = await axios({
         method: "DELETE",
         url: "api/signout",
         headers: {
