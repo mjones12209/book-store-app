@@ -71,15 +71,16 @@ const LoginForm = () => {
           {error}
         </Alert>
       )}
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <div
+      <form data-testid="loginForm" onSubmit={handleSubmit(onSubmit)}>
+        <div data-testid="colmddiv"
           id={styles["login-form-div"]}
           className="col-md-3 shadow-lg text-center p-3 mt-2 mb-5 bg-white rounded"
         >
-          <h2>Sign In</h2>
-          <div className="form-group">
-            <label>Username / Email</label>
+          <h2 data-testid="signInH2">Sign In</h2>
+          <div className="form-group" data-testid="formGroupDiv">
+            <label htmlFor="username">Username / Email</label>
             <input
+              data-testid="usernameInput"
               type="text"
               className="form-control"
               id="username"
@@ -101,10 +102,12 @@ const LoginForm = () => {
               </Alert>
             )}
           </div>
-          <div className="form-group">
-            <label>Password</label>
+          <div className="form-group" data-testid="formGroupDivTwo">
+            <label htmlFor="password">Password</label>
             <input
+              data-testid="passwordInput"
               type="password"
+              id="password"
               className="form-control"
               {...register("passwordValid", {
                 required: "This is a required field.",
@@ -124,7 +127,7 @@ const LoginForm = () => {
               </Alert>
             )}
           </div>
-          <button className="btn btn-primary mt-2" type="submit">
+          <button className="btn btn-primary mt-2" type="submit" data-testid="signInButton">
             Sign In
           </button>
         </div>
