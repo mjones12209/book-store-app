@@ -2,7 +2,6 @@ import { render } from "@testing-library/react";
 import { BrowserRouter as Router } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthContext';
 import Nav from "./Nav";
-import TestRenderer from "react-test-renderer";
 
 //check all static elements are in the document
 
@@ -29,7 +28,7 @@ test("check to see if the SignOut button is conditionally rendered", () => {
           <Router>
              <Nav />
           </Router>
-        </AuthContext.Provider>
+      </AuthContext.Provider>
     )
   );
   expect(element.getByTestId("signOutButton")).toBeInTheDocument();
