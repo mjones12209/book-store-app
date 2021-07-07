@@ -32,18 +32,19 @@ const Nav: React.FC<{}> = () => {
   return (
     <>
       <nav
+        data-testid="navElement"
         id={styles["nav-edit"]}
         className="nav bg-light d-flex justify-content-between"
       >
-        <Link className="nav-link" to="/bookshelf">
+        <Link data-testid="bookshelfNavLink" className="nav-link" to="/bookshelf">
           My Bookshelf
         </Link>
         {state.isLoggedIn && (
-          <button className="nav-link" onClick={() => signOut()}>
+          <button data-testid="signOutButton" className="nav-link" onClick={() => signOut()}>
             Sign Out
           </button>
         )}
-        <Link className="nav-link" to="/search">
+        <Link data-testid="searchNavLink" className="nav-link" to="/search">
           {<BsSearch />} Search
         </Link>
       </nav>
