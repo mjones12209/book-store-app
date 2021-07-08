@@ -33,5 +33,6 @@ test("render Book static elements", () => {
    });
    
    expect(optionElements).toHaveLength(4);
+   optionElements.forEach(element => expect(element).toBeInTheDocument());
 
 });
