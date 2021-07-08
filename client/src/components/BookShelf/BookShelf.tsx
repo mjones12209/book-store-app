@@ -3,9 +3,8 @@ import { useContext, useEffect, useState } from "react";
 import { Card, Alert } from "react-bootstrap";
 import styles from "./BookShelf.module.css";
 import { AuthContext } from "../../context/AuthContext";
-import axios, { AxiosResponse, CancelTokenSource } from "axios";
+import axios, { AxiosResponse } from "axios";
 import Book from "./Book/Book";
-import { EffectCallback } from "react";
 
 interface bookShelfData {
   wantToRead: Array<any>;

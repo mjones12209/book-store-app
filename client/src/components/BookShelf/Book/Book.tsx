@@ -83,33 +83,45 @@ const Book: React.FC<Props> = ({ title, image, bookId, setBookShelfData }) => {
   return (
     <div data-testid="book" id={styles["bookContainer"]}>
       <img
+        data-testid="bookImage"
         id={styles["img"]}
         src={image}
         alt={title}
         height="193"
         width="128"
       />
-      <div id={styles["ul"]}>
+      <div data-testid="bookUnorderedList" id={styles["ul"]}>
         <Link
+          data-testid="bookLink"
           id={styles["cardLink"]}
           style={{ fontWeight: 600 }}
           to={`/book/${bookId}`}
         >
           {title}
         </Link>
-        <div>Change Shelf:</div>
+        <div data-testid="changeShelfDiv">Change Shelf:</div>
         <select
+          data-testid="changeShelfSelect"
           onChange={(e) => {
             switchToAnotherShelf(bookId, e.target.value);
           }}
         >
-          <option defaultValue="true">Select shelf</option>
-          <option value="wantToRead">Want To Read</option>
-          <option value="currentlyReading">Currently Reading</option>
-          <option value="read">Read</option>
+          <option data-testid="option" defaultValue="true">
+            Select shelf
+          </option>
+          <option data-testid="option" value="wantToRead">
+            Want To Read
+          </option>
+          <option data-testid="option" value="currentlyReading">
+            Currently Reading
+          </option>
+          <option data-testid="option" value="read">
+            Read
+          </option>
         </select>
-        <br />
+        <br data-testid="breakElement" />
         <Button
+          data-testid="removeButton"
           className="mt-2"
           variant="danger"
           onClick={() => deleteBook(bookId)}
