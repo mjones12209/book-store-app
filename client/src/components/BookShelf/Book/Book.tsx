@@ -81,7 +81,7 @@ const Book: React.FC<Props> = ({ title, image, bookId, setBookShelfData }) => {
   };
 
   return (
-    <div id={styles["bookContainer"]}>
+    <div data-testid="book" id={styles["bookContainer"]}>
       <img
         id={styles["img"]}
         src={image}

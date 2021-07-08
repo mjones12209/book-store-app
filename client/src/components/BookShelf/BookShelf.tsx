@@ -5,6 +5,7 @@ import styles from "./BookShelf.module.css";
 import { AuthContext } from "../../context/AuthContext";
 import axios, { AxiosResponse, CancelTokenSource } from "axios";
 import Book from "./Book/Book";
+import { EffectCallback } from "react";
 
 interface bookShelfData {
   wantToRead: Array<any>;
@@ -26,30 +27,20 @@ const BookShelf: React.FC<{}> = () => {
   const [bookShelfData, setBookShelfData] = useState<bookShelfData>();
 
   useEffect(() => {
-    // (async () => {
-      // const response: AxiosResponse<any> = await axios(
-      //   {
-      //     method: "GET",
-      //     url: "/api/bookshelf",
-      //     headers: {
-      //       Authorization: `Bearer ${state.token}`,
-      //       "Content-Type": "application/json",
-      //     },
-      //   }
-      // );
-    // })();
-    const getBookShelfDataRequest: Function = async ()=> {
-      const response: AxiosResponse = await axios.get("/api/bookshelf", {
-        headers: {
-          Authorization: `Bearer ${state.token}`,
-          "Content-Type": "application/json",
+    let isMounted: boolean = true;
+      const getBookShelfDataRequest: Function = async ()=> {
+        const response: AxiosResponse = await axios.get("/api/bookshelf", {
+          headers: {
+            Authorization: `Bearer ${state.token}`,
+            "Content-Type": "application/json",
+          }
+        });
+        if (response.status === 200 && isMounted) {
+          setBookShelfData(response.data.books);
         }
-      });
-      if (response.status === 200) {
-        setBookShelfData(response.data.books);
       }
-    }
-    getBookShelfDataRequest();
+      getBookShelfDataRequest();
+      return () => isMounted = false as any;
   }, [state.token]);
 
   return (
