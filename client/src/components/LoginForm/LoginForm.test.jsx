@@ -52,7 +52,7 @@ it('should validate form fields', async () => {
   );
 
     fireEvent.submit(signInButton, {name: /Sign In/i});
-
+    
     expect(await findAllByRole("alert")).toHaveLength(2);
     expect(mockSave).not.toBeCalled();
 })
