@@ -1,4 +1,4 @@
-import { render } from "@testing-library/react";
+import { screen, render, fireEvent } from "@testing-library/react";
 import BookShelf from "./BookShelf";
 import { rest } from "msw";
 import { setupServer } from "msw/node";
@@ -90,3 +90,49 @@ test("mockAPI Call test for Book components", async () => {
 
   expect(await wrapper.findAllByTestId("book")).toHaveLength(3);
 });
+
+// beforeAll(() => {
+//   // Establish requests interception layer before all tests.
+//   server.listen();
+// });
+
+// afterAll(() => {
+//   // Clean up after all tests are done, preventing this
+//   // interception layer from affecting irrelevant tests.
+//   server.close();
+// });
+
+
+// test("mockAPI call for testing removeButton functionality", async () => {
+//   data = {
+//     books: {
+//       wantToRead: [{ title: "Test1", imageLinks: "", id: "bzwhf332" }],
+//       currentlyReading: [{ title: "Test2", imageLinks: "", bookId: "0324981" }],
+//       read: [{ title: "Test3", imageLinks: "", bookId: "0324982" }],
+//     },
+//   };
+
+//   server.use(
+//     rest.get("/api/bookshelf", (req, res, ctx) => {
+//       return res(ctx.json(data));
+//     })
+//   );
+
+//   render(
+//     <Router>
+//       <BookShelf />
+//     </Router>
+//   );
+
+//   const buttons = await screen.findAllByTestId("removeButton");
+
+//   server.use(
+//     rest.delete("/api/bookshelf/:bookId", (req, res, ctx) => {
+//       return res(ctx.json(data));
+//     })
+//   );
+
+//   fireEvent.click(buttons[0])
+
+//   expect(await screen.findAllByTestId("removeButton")).toHaveLength(2);
+// });
