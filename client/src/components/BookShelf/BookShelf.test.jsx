@@ -70,9 +70,9 @@ test("mockAPI Call test for Book components", async () => {
 
   data = {
     books: {
-      wantToRead: [{ title: "Test1", bookId: "0324980" }],
-      currentlyReading: [{ title: "Test2", bookId: "0324981" }],
-      read: [{ title: "Test3", bookId: "0324982" }],
+      wantToRead: [{ title: "Test1", id: "0324980" }],
+      currentlyReading: [{ title: "Test2", id: "0324981" }],
+      read: [{ title: "Test3", id: "0324982" }],
     },
   };
 
@@ -91,48 +91,56 @@ test("mockAPI Call test for Book components", async () => {
   expect(await wrapper.findAllByTestId("book")).toHaveLength(3);
 });
 
-// beforeAll(() => {
-//   // Establish requests interception layer before all tests.
-//   server.listen();
-// });
+beforeAll(() => {
+  // Establish requests interception layer before all tests.
+  server.listen();
+});
 
-// afterAll(() => {
-//   // Clean up after all tests are done, preventing this
-//   // interception layer from affecting irrelevant tests.
-//   server.close();
-// });
+afterAll(() => {
+  // Clean up after all tests are done, preventing this
+  // interception layer from affecting irrelevant tests.
+  server.close();
+});
 
 
-// test("mockAPI call for testing removeButton functionality", async () => {
-//   data = {
-//     books: {
-//       wantToRead: [{ title: "Test1", imageLinks: "", id: "bzwhf332" }],
-//       currentlyReading: [{ title: "Test2", imageLinks: "", bookId: "0324981" }],
-//       read: [{ title: "Test3", imageLinks: "", bookId: "0324982" }],
-//     },
-//   };
+test("mockAPI call for testing removeButton functionality", async () => {
+  data = {
+    books: {
+      wantToRead: [{ title: "Test1", imageLinks: "", id: "bzwhf332" }],
+      currentlyReading: [{ title: "Test2", imageLinks: "", id: "0324981" }],
+      read: [{ title: "Test3", imageLinks: "", id: "0324982" }],
+    },
+  };
 
-//   server.use(
-//     rest.get("/api/bookshelf", (req, res, ctx) => {
-//       return res(ctx.json(data));
-//     })
-//   );
+  server.use(
+    rest.get("/api/bookshelf", (req, res, ctx) => {
+      return res(ctx.json(data));
+    }),
+    );
+    
+    render(
+      <Router>
+      <BookShelf />
+    </Router>
+  );
+  
+  const buttons = await screen.findAllByTestId("removeButton");
+  
+  server.use(
+    rest.delete("/api/bookshelf/:bookId", (req, res, ctx) => {
+      const { bookId } = req.params;
+      data = Object.assign({}, Object.values(data.books)).forEach((array) =>
+        array.filter((object) => object.id === bookId)
+      );
+      return res(ctx.delay(200), ctx.status(204));
+    })
+  );
 
-//   render(
-//     <Router>
-//       <BookShelf />
-//     </Router>
-//   );
+  // console.log(screen.debug())
 
-//   const buttons = await screen.findAllByTestId("removeButton");
+  // console.log(await screen.findAllByTestId("removeButton"))
 
-//   server.use(
-//     rest.delete("/api/bookshelf/:bookId", (req, res, ctx) => {
-//       return res(ctx.json(data));
-//     })
-//   );
+  fireEvent.click(buttons[0])
 
-//   fireEvent.click(buttons[0])
-
-//   expect(await screen.findAllByTestId("removeButton")).toHaveLength(2);
-// });
+  // expect(await screen.findAllByTestId("removeButton")).toHaveLength(2);
+});

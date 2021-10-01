@@ -13,6 +13,7 @@ interface Props {
 }
 
 const Book: React.FC<Props> = ({ title, image, bookId, setBookShelfData }) => {
+  console.log("BOOKID",bookId)
   const { state } = useContext(AuthContext);
 
   const deleteBook: Function = async (bookId: String) => {
@@ -41,7 +42,7 @@ const Book: React.FC<Props> = ({ title, image, bookId, setBookShelfData }) => {
         })();
       }
     } catch (e) {
-      console.log(e.mesesage);
+      console.log(e);
     }
   };
 
