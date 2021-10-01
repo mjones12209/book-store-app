@@ -58,7 +58,7 @@ const SearchResult: React.FC<Props> = ({
       if (asyncResponse.status === 200) {
         setSuccessfulAdditionMessage("Successfully Added!");
       }
-    } catch (e) {
+    } catch (e:any) {
       setApiError(e.message);
     }
   };

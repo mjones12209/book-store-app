@@ -55,7 +55,7 @@ const LoginForm = () => {
         window.localStorage.setItem("refresh","1");
         history.push("/bookshelf");
       }
-    } catch (e) {
+    } catch (e:any) {
       setError(e.message);
     }
   };

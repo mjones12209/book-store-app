@@ -75,7 +75,7 @@ const Search: React.FC = () => {
           })
         );
       }
-    } catch (e) {
+    } catch (e:any) {
       console.log(e);
       if (e.response) {
         setIsLoading(false);

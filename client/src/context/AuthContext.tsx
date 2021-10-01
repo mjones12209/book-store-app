@@ -73,7 +73,7 @@ const AuthContextProvider: React.FC = ({ children }) => {
             });
             history.push("/bookshelf");
           }
-        } catch (e) {
+        } catch (e:any) {
           console.log(e.message);
         }
       }

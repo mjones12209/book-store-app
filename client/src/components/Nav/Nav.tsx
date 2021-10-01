@@ -23,7 +23,7 @@ const Nav: React.FC<{}> = () => {
         window.localStorage.removeItem("refresh");
         dispatch({ type: "LOGOUT" });
       }
-    } catch (e) {
+    } catch (e:any) {
       dispatch({ type: "LOGOUT" });
       console.log(e);
     }

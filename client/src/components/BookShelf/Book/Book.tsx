@@ -41,7 +41,7 @@ const Book: React.FC<Props> = ({ title, image, bookId, setBookShelfData }) => {
           }
         })();
       }
-    } catch (e) {
+    } catch (e:any) {
       console.log(e);
     }
   };
@@ -75,7 +75,7 @@ const Book: React.FC<Props> = ({ title, image, bookId, setBookShelfData }) => {
             }
           })();
         }
-      } catch (e) {
+      } catch (e:any) {
         console.log(e);
       }
     }
