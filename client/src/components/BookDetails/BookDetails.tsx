@@ -40,7 +40,7 @@ const BookDetails: React.FC<{}> = () => {
         }
       };
       getMovieDetails();
-    } catch (e) {
+    } catch (e:any) {
       setIsLoading(false);
       setErrorMessage(e.message);
     }
@@ -62,8 +62,8 @@ const BookDetails: React.FC<{}> = () => {
       if (asyncResponse.status === 200) {
         setSuccessMessage("Book was successfully moved!");
       }
-    } catch (e) {
-      setErrorMessage(e.message);
+    } catch (e:any) {
+      setErrorMessage(e);
     }
   };
 
